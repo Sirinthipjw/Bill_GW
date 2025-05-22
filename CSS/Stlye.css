@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+
+.sarabun-thin {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.sarabun-extralight {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.sarabun-light {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.sarabun-regular {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.sarabun-medium {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.sarabun-semibold {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.sarabun-bold {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.sarabun-extrabold {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.sarabun-thin-italic {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.sarabun-extralight-italic {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.sarabun-light-italic {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.sarabun-regular-italic {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.sarabun-medium-italic {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.sarabun-semibold-italic {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.sarabun-bold-italic {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.sarabun-extrabold-italic {
+  font-family: "Sarabun", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+
+body {
+      font-family: sans-serif;
+      padding: 20px;
+      background : #b1dbf8;
+    }
+.input-wrapper {
+    margin-bottom: 10px;
+}
+.btn {
+      padding: 10px 20px;
+      background-color: #38a169;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+.file-info {
+    color: green;
+}
+ .file-input {
+      display: block;
+      width: 100%;
+      font-size: 0.875rem;
+      color: #6b7280; /* text-gray-500 */
+      cursor: pointer;
+    }
+    .file-input::-webkit-file-upload-button {
+      margin-right: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      border: 0;
+      font-size: 0.875rem;
+      font-weight: 600;
+      background-color: #eff6ff; /* bg-blue-50 */
+      color: #1d4ed8; /* text-blue-700 */
+      transition: background-color 0.2s;
+    }
+    .file-input:hover::-webkit-file-upload-button {
+      background-color: #dbeafe; /* hover:file:bg-blue-100 */
+    }
+    .button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #10b981; /* bg-green-500 */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .selected-file {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: #16a34a; /* text-green-600 */
+    }
+
+.green-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.green-button:hover {
+  background-color: #218838;
+}
