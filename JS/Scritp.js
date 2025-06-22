@@ -165,7 +165,7 @@ viewPdfBtn.addEventListener("click", function () {
     doc.text("ชำระค่า : " + (invoice["Pay"] || ""), middleX, y);
     doc.text("งวดที่ : " + (invoice["PeriodNo"] || ""), middleX, (y += lh));
 
-    y = 80;
+    y = 85;
     doc.text(invoice["ResponsiblePerson"] || "", centerX, (y += lh * 7), {
       align: "center",
     });
@@ -197,7 +197,7 @@ viewPdfBtn.addEventListener("click", function () {
       doc.text("(" + invoice["NumberPronunciation"] + ")", rightX - 10, y);
     }
 
-    y += lh * 8;
+    y += lh * 10;
     doc.text("หมายเหตุ: " + (invoice["Notes"] || ""), leftX, (y += lh));
   });
 
