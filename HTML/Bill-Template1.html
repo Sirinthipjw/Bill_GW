@@ -9,104 +9,217 @@
 </head>
 <body>
 <div id="invoice-template">
-  <h1 style="text-align:center;">ใบกำกับภาษี</h1>
-  <div class="paper">
-    <div class="company">
+  
+    <div class="paper">
+        <h1 style="text-align:center; margin-top: 0px;">ใบเสร็จรับเงิน/ใบกำกับภาษี</h1>
+        <div class="company">
+            <div class="row">
+                <div class="col-5">
+                    <p>ชื่อบริษัท/ห้าง: {{CompanyName}}</p>
+                </div>
+                <div class="col-3">
+                    <p>สาขา : {{BranchCom}}</p>
+                </div>
+                <div class="col-4">
+                    <p>เลขที่เอกสาร : {{CONum}}</p>
+                </div>
+            </div>
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-8">
+                    <p>ที่อยู่แยกตามสาขา : {{AddrCom}} {{DistrictCom}} {{SubdistrictCom}} {{ProvinceCom}} {{ZipCom}}</p>
+                </div>
+                <div class="col-4">
+                    <p>เลขที่ใบกำกับภาษี : {{TaxCom}}</p>
+                </div>
+            </div>
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-8">
+                    <p>เลขประจำตัวผู้เสียภาษีอากร : {{TaxCom}}</p>
+                </div>
+                <div class="col-4">
+                    <p>วันที่ : {{Date}}</p>
+                </div>
+            </div>
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-5">
+                    <p>เบอร์โทรสาขา : {{PhoneCom}}</p>
+                </div>
+                <div class="col-7">
+                    <p>เบอรโทรลูกค้าสัมพันธ์ : {{FaxCom}}</p>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="customer">
+            <div class="row">
+                <div class="col-8">
+                    <p>ได้รับเงินจาก: {{NameCust}} {{BranchInfo}}</p>
+                </div>
+            
+                <div class="col-4">
+                    <p>ชำระโดย : {{PayType}}</p>
+                </div>
+            </div>
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-8">
+                    <p>ที่อยู่ : {{AddrCom}} {{DistrictCom}} {{SubdistrictCom}} {{ProvinceCom}} {{ZipCom}}</p>
+                </div>
+                <div class="col-4">
+                    <p>สัญญาเลขที่ : {{ContractNum}}</p>
+                </div>
+            </div>
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-8">
+                    <p>เลขประจำตัวผู้เสียภาษีอากร : {{TaxCust}}</p>
+                </div>
+                <div class="col-4">
+                    <p>แบบรถ : {{Model}}</p>
+                </div>
+            </div>
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-8">
+                    <p>{{RefCust}}</p>
+                </div>
+                <div class="col-4">
+                    <p>สี : {{Color}}</p>
+                </div>
+            </div>
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-8">
+                    
+                </div>
+                <div class="col-4">
+                    <p>หมายเลขเครื่อง : {{CertNum}}</p>
+                </div>
+            </div>
+            <div class="row" style="margin-top: -10px;">
+                <div class="col-8">
+                    
+                </div>
+                <div class="col-4">
+                    <p>หมายเลขตัวถัง : {{SeriNum}}</p>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 20px;">
+            <hr class="my-0" style="border-top: 1.5px solid black; " />
+
+            <div class="menu" style="height: 20px;">
+                <div class="row h-100">
+                    <div class="col-3 d-flex align-items-center justify-content-center">
+                    <p class="mb-0">รายการสินค้า</p>
+                    </div>
+                    <div class="col-3 d-flex align-items-center justify-content-center">
+                    <p class="mb-0">จำนวน</p>
+                    </div>
+                    <div class="col-3 d-flex align-items-center justify-content-center">
+                    <p class="mb-0">ราคาหน่วยละ</p>
+                    </div>
+                    <div class="col-3 d-flex align-items-center justify-content-center">
+                    <p class="mb-0">จำนวนเงิน</p>
+                    </div>
+                </div>
+            </div>
+         <hr class="my-0" style="border-top: 1.5px solid black;" />
+
+
+        </div>
+        
+    <div class="menu_list">
         <div class="row">
-            <div class="col-5">
-                <p>ชื่อบริษัท/ห้าง: {{CompanyName}}</p>
+            <div class="col-3">
+                <p>{{ProductList}}</p>
+            </div>
+            <div class="col-3 d-flex align-items-center justify-content-center">
+                <p>{{Qty}}</p>
+            </div>
+            <div class="col-3 d-flex align-items-end justify-content-end">
+                <p>{{UnitPrice}}</p>
+            </div>
+            <div class="col-3 d-flex align-items-end justify-content-end">
+                <p>{{Price}}</p>
+            </div>
+
+         </div>
+    </div>
+    <div class="mt-10">
+        <div class="row">
+            <div class="col-6">
+                <p>ราคารวมภาษีมูลค่าเพิ่ม ({{TotalPriceText}})</p>
             </div>
             <div class="col-3">
-                <p>สาขา : {{BranchCom}}</p>
+                <p>ส่วนลด</p>
             </div>
-            <div class="col-4">
-                <p>เลขที่เอกสาร : {{CONum}}</p>
-            </div>
-        </div>
-        <div class="row" style="margin-top: -10px;">
-            <div class="col-8">
-                <p>ที่อยู่แยกตามสาขา : {{AddrCom}} {{DistrictCom}} {{SubdistrictCom}} {{ProvinceCom}} {{ZipCom}}</p>
-            </div>
-            <div class="col-4">
-                <p>เลขที่ใบกำกับภาษี : {{TaxCom}}</p>
+            <div class="col-3 d-flex align-items-center justify-content-end">
+                <p>{{Disc}}</p>
             </div>
         </div>
-        <div class="row" style="margin-top: -10px;">
-            <div class="col-8">
-                <p>เลขประจำตัวผู้เสียภาษีอากร : {{TaxCom}}</p>
+        <div class="row" style="margin-top: -15px;">
+            <div class="col-6">
+                <p>หมายเหตุ : {{Comment}}</p>
             </div>
-            <div class="col-4">
-                <p>วันที่ : {{Date}}</p>
+            <div class="col-3">
+                <p>ราคารวมสินค้า</p>
+            </div>
+            <div class="col-3 d-flex align-items-center justify-content-end">
+                <p>{{SumPrice}}</p>
             </div>
         </div>
-        <div class="row" style="margin-top: -10px;">
-            <div class="col-5">
-                <p>เบอร์โทรสาขา : {{PhoneCom}}</p>
+        <div class="row" style="margin-top: -15px;">
+            <div class="col-6">
+               
             </div>
-            <div class="col-7">
-                <p>เบอรโทรลูกค้าสัมพันธ์ : {{FaxCom}}</p>
+            <div class="col-3">
+                <p>ภาษีมูลค่าเพิ่ม VAT 7%</p>
             </div>
+            <div class="col-3 d-flex align-items-center justify-content-end">
+                <p>{{Vat}}</p>
+            </div>
+        </div>
+        <div class="row" style="margin-top: -15px;">
+            <div class="col-6">
+               
+            </div>
+            <div class="col-3">
+                <p>รวมมูลค่าสินค้า</p>
+            </div>
+            <div class="col-3 d-flex align-items-center justify-content-end">
+                <p>{{TotalPrice}}</p>
+            </div>
+        </div>
+        <div class="row" style="margin-top: -15px;">
+            <div class="col">
+              <p>ของแถมตามใบสั่งขาย : {{ProductList}}</p> 
+            </div>
+        </div>
+        <div class="row" style="margin-top: 40px;">
+            <div class="col-6" style="text-align: start;">
+                <div >
+                    <p></p>
+                    <hr class="my-0" style="border-top: 1px solid black; justify-content: left; width: 50%;" />
+                    <p style="text-align: center; margin-top: 0px; margin-bottom: 0px;">ผู้จ่ายเงิน</p>
+                </div>
+                
+            </div>
+            <div class="col-6">
+                <p style="text-align: center;  margin-bottom: 0px;" >{{UserDesc}}</p>
+                <hr class="my-0" style="border-top: 1px solid black; justify-content: left; width: 70%;" />
+                <p style="text-align: center; margin-top: 0px; margin-bottom: 0px;">ผู้รับเงิน</p>
+            </div>
+        </div>
+        <div class="mt-2">
+            <p>ใบเสร็จรับเงินฉบับนี้จะสมบูรณ์ต่อเมื่อมีชื่อเจ้าหน้าที่ผู้รับเงินจึงจะเป็นใบรับสมบูรณ์กรณีที่ชำระด้วยเช็คจะสมบูรณ์ต่อเมื่อบริษัทห้างได้รับเงินตามเช็คเป็นที่ถูกต้องเรียบร้อย</p>
         </div>
 
+
+    </div>   
+
+        
+    
+
+    
     </div>
-    
-    <div class="customer">
-        <div class="row">
-            <div class="col-8">
-                <p>ได้รับเงินจาก: {{NameCust}} สาขา : {{BranchIdCust}} {{BranchNameCust}}</p>
-            </div>
-           
-            <div class="col-4">
-                <p>ชำระโดย : {{PayType}}</p>
-            </div>
-        </div>
-        <div class="row" style="margin-top: -10px;">
-            <div class="col-8">
-                <p>ที่อยู่ : {{AddrCom}} {{DistrictCom}} {{SubdistrictCom}} {{ProvinceCom}} {{ZipCom}}</p>
-            </div>
-            <div class="col-4">
-                <p>สัญญาเลขที่ : </p>
-            </div>
-        </div>
-        <div class="row" style="margin-top: -10px;">
-            <div class="col-8">
-                <p>เลขประจำตัวผู้เสียภาษีอากร : {{TaxCust}}</p>
-            </div>
-            <div class="col-4">
-                <p>แบบรถ : {{Model}}</p>
-            </div>
-        </div>
-        <div class="row" style="margin-top: -10px;">
-            <div class="col-8">
-                
-            </div>
-            <div class="col-4">
-                <p>สี : {{Color}}</p>
-            </div>
-        </div>
-        <div class="row" style="margin-top: -10px;">
-            <div class="col-8">
-                
-            </div>
-            <div class="col-4">
-                <p>หมายเลขเครื่อง : {{CertNum}}</p>
-            </div>
-        </div>
-         <div class="row" style="margin-top: -10px;">
-            <div class="col-8">
-                
-            </div>
-            <div class="col-4">
-                <p>หมายเลขตัวถัง : {{SeriNum}}</p>
-            </div>
-        </div>
-
-    </div>
-    
-    
-
-    
-  </div>
   
 </div>
 
