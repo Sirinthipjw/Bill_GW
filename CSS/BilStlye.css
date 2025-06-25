@@ -48,3 +48,31 @@ h1{
     text-align: center;
     font-weight: 700;
 }
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-family: 'Sarabun', sans-serif;
+  }
+  .invoice-table th{
+    border-top: 1.5px solid black;
+  border-bottom: 1.5px solid black;
+  border-left: none;
+  border-right: none;
+  padding: 5px;
+  text-align: center;
+  vertical-align: middle;
+  }
+
+  .invoice-table td {
+    /* border: 1.5px solid rgb(255, 255, 255); */
+    padding: 0px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .invoice-table td.text-right {
+    text-align: right;
+  }
+  .invoice-table td.text-left {
+    text-align: left;
+  }

@@ -74,35 +74,37 @@
                     <p>เลขประจำตัวผู้เสียภาษีอากร : {{TaxCust}}</p>
                 </div>
                 <div class="col-4">
-                    <p>แบบรถ : {{Model}}</p>
+                    <!-- <p>แบบรถ : {{Model}}</p> -->
+                     <div class="model-line">แบบรถ: {{Model}}</div>
                 </div>
             </div>
             <div class="row" style="margin-top: -10px;">
                 <div class="col-8">
-                    <p>{{RefCust}}</p>
+                    <div class="RefCust-line">{{RefCust}}</div>
                 </div>
                 <div class="col-4">
-                    <p>สี : {{Color}}</p>
+                    <!-- <p>สี : {{Color}}</p> -->
+                    <div class="color-line">สี: {{Color}}</div>
                 </div>
             </div>
-            <div class="row" style="margin-top: -10px;">
-                <div class="col-8">
-                    
-                </div>
-                <div class="col-4">
-                    <p>หมายเลขเครื่อง : {{CertNum}}</p>
-                </div>
-            </div>
-            <div class="row" style="margin-top: -10px;">
+            <div class="row" style="margin-top: 5px;">
                 <div class="col-8">
                     
                 </div>
                 <div class="col-4">
-                    <p>หมายเลขตัวถัง : {{SeriNum}}</p>
+                    <div class="CertNum-line">หมายเลขเครื่อง : {{CertNum}}</div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 5px;">
+                <div class="col-8">
+                    
+                </div>
+                <div class="col-4">
+                    <div class="SeriNum-line">หมายเลขตัวถัง : {{SeriNum}}</div>
                 </div>
             </div>
         </div>
-        <div style="margin-top: 20px;">
+        <!-- <div style="margin-top: 20px;">
             <hr class="my-0" style="border-top: 1.5px solid black; " />
 
             <div class="menu" style="height: 20px;">
@@ -126,33 +128,54 @@
 
         </div>
         
-    <div class="menu_list">
-        <div class="row">
-            <div class="col-3">
-                <p>{{ProductList}}</p>
-            </div>
-            <div class="col-3 d-flex align-items-center justify-content-center">
-                <p>{{Qty}}</p>
-            </div>
-            <div class="col-3 d-flex align-items-end justify-content-end">
-                <p>{{UnitPrice}}</p>
-            </div>
-            <div class="col-3 d-flex align-items-end justify-content-end">
-                <p>{{Price}}</p>
-            </div>
+        <div class="menu_list">
+            <div class="row">
+                <div class="col-3">
+                    <p>{{ProductList}}</p>
+                </div>
+                <div class="col-3 d-flex align-items-center justify-content-center">
+                    <p>{{Qty}}</p>
+                </div>
+                <div class="col-3 d-flex align-items-end justify-content-end">
+                    <p>{{UnitPrice_Formatted}}</p>
+                </div>
+                <div class="col-3 d-flex align-items-end justify-content-end">
+                    <p>{{Price_Formatted}}</p>
+                </div>
 
-         </div>
-    </div>
-    <div class="mt-10">
+            </div>
+        </div> -->
+        <div style="margin-top: 20px;">
+            <table class="invoice-table">
+            <thead>
+                <tr>
+                <th>รายการสินค้า</th>
+                <th>จำนวน</th>
+                <th>ราคาหน่วยละ</th>
+                <th>จำนวนเงิน</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td class="text-left">{{ProductList}}</td>
+                <td>{{Qty}}</td>
+                <td class="text-right">{{UnitPrice_Formatted}}</td>
+                <td class="text-right">{{Price_Formatted}}</td>
+                </tr>
+            </tbody>
+            </table>
+
+        </div>
+    <div  style="margin-top: 20px;">
         <div class="row">
             <div class="col-6">
-                <p>ราคารวมภาษีมูลค่าเพิ่ม ({{TotalPriceText}})</p>
+                <p>ราคารวมภาษีมูลค่าเพิ่ม ({{TotalPrice_Text}})</p>
             </div>
             <div class="col-3">
                 <p>ส่วนลด</p>
             </div>
             <div class="col-3 d-flex align-items-center justify-content-end">
-                <p>{{Disc}}</p>
+                <p>{{Disc_Formatted}}</p>
             </div>
         </div>
         <div class="row" style="margin-top: -15px;">
@@ -163,7 +186,7 @@
                 <p>ราคารวมสินค้า</p>
             </div>
             <div class="col-3 d-flex align-items-center justify-content-end">
-                <p>{{SumPrice}}</p>
+                <p>{{SumPrice_Formatted}}</p>
             </div>
         </div>
         <div class="row" style="margin-top: -15px;">
@@ -174,7 +197,7 @@
                 <p>ภาษีมูลค่าเพิ่ม VAT 7%</p>
             </div>
             <div class="col-3 d-flex align-items-center justify-content-end">
-                <p>{{Vat}}</p>
+                <p>{{Vat_Formatted}}</p>
             </div>
         </div>
         <div class="row" style="margin-top: -15px;">
@@ -185,29 +208,32 @@
                 <p>รวมมูลค่าสินค้า</p>
             </div>
             <div class="col-3 d-flex align-items-center justify-content-end">
-                <p>{{TotalPrice}}</p>
+                <p>{{TotalPrice_Formatted}}</p>
             </div>
         </div>
         <div class="row" style="margin-top: -15px;">
             <div class="col">
-              <p>ของแถมตามใบสั่งขาย : {{ProductList}}</p> 
+              <p>ของแถมตามใบสั่งขาย : {{FreeProductList}}</p> 
             </div>
         </div>
         <div class="row" style="margin-top: 40px;">
-            <div class="col-6" style="text-align: start;">
-                <div >
-                    <p></p>
-                    <hr class="my-0" style="border-top: 1px solid black; justify-content: left; width: 50%;" />
-                    <p style="text-align: center; margin-top: 0px; margin-bottom: 0px;">ผู้จ่ายเงิน</p>
+        <!-- ผู้จ่ายเงิน -->
+            <div class="col-6" style="text-align: center;">
+                <div style="display: inline-block; width: 60%; border-bottom: 0.5px solid rgb(93, 93, 93); margin-bottom: 2px;">
+                <p style="margin: 0; height: 20px;"></p>
                 </div>
-                
+                <p style="margin: 0;">ผู้จ่ายเงิน</p>
             </div>
-            <div class="col-6">
-                <p style="text-align: center;  margin-bottom: 0px;" >{{UserDesc}}</p>
-                <hr class="my-0" style="border-top: 1px solid black; justify-content: left; width: 70%;" />
-                <p style="text-align: center; margin-top: 0px; margin-bottom: 0px;">ผู้รับเงิน</p>
+
+        <!-- ผู้รับเงิน -->
+            <div class="col-6" style="text-align: center;">
+                <div style="display: inline-block; width: 70%; border-bottom: 0.5px solid rgb(93, 93, 93); margin-bottom: 2px;">
+                <p style="margin: 0; height: 20px;">{{UserDesc}}</p>
+                </div>
+                <p style="margin: 0;">ผู้รับเงิน</p>
             </div>
         </div>
+
         <div class="mt-2">
             <p>ใบเสร็จรับเงินฉบับนี้จะสมบูรณ์ต่อเมื่อมีชื่อเจ้าหน้าที่ผู้รับเงินจึงจะเป็นใบรับสมบูรณ์กรณีที่ชำระด้วยเช็คจะสมบูรณ์ต่อเมื่อบริษัทห้างได้รับเงินตามเช็คเป็นที่ถูกต้องเรียบร้อย</p>
         </div>
