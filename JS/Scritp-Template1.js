@@ -62,6 +62,39 @@ document.getElementById("excelFile").addEventListener("change", function (e) {
     }
   };
   reader.readAsArrayBuffer(file);
+
+
+    document.getElementById("excelFile").addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    handleExcelFile(file);
+  });
+
+  // ✅ อัปโหลดแบบ Drag & Drop
+  ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
+    dropZone.addEventListener(eventName, e => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+  });
+
+  ["dragenter", "dragover"].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => {
+      dropZone.style.borderColor = "#00aaff";
+      dropZone.style.backgroundColor = "#f0faff";
+    });
+  });
+
+  ["dragleave", "drop"].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => {
+      dropZone.style.borderColor = "#ccc";
+      dropZone.style.backgroundColor = "#fff";
+    });
+  });
+
+  dropZone.addEventListener("drop", e => {
+    const file = e.dataTransfer.files[0];
+    handleExcelFile(file);
+  });
 });
 
 viewPdfBtn.addEventListener("click", async function () {

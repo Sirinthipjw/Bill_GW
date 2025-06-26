@@ -1,98 +1,98 @@
-@import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import url('link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"');
 
 
-.sarabun-thin {
-  font-family: "Sarabun", sans-serif;
+.Inter-thin {
+  font-family: "Inter", sans-serif;
   font-weight: 100;
   font-style: normal;
 }
 
-.sarabun-extralight {
-  font-family: "Sarabun", sans-serif;
+.Inter-extralight {
+  font-family: "Inter", sans-serif;
   font-weight: 200;
   font-style: normal;
 }
 
-.sarabun-light {
-  font-family: "Sarabun", sans-serif;
+.Inter-light {
+  font-family: "Inter", sans-serif;
   font-weight: 300;
   font-style: normal;
 }
 
-.sarabun-regular {
-  font-family: "Sarabun", sans-serif;
+.Inter-regular {
+  font-family: "Inter", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
-.sarabun-medium {
-  font-family: "Sarabun", sans-serif;
+.Inter-medium {
+  font-family: "Inter", sans-serif;
   font-weight: 500;
   font-style: normal;
 }
 
-.sarabun-semibold {
-  font-family: "Sarabun", sans-serif;
+.Inter-semibold {
+  font-family: "Inter", sans-serif;
   font-weight: 600;
   font-style: normal;
 }
 
-.sarabun-bold {
-  font-family: "Sarabun", sans-serif;
+.Inter-bold {
+  font-family: "Inter", sans-serif;
   font-weight: 700;
   font-style: normal;
 }
 
-.sarabun-extrabold {
-  font-family: "Sarabun", sans-serif;
+.Inter-extrabold {
+  font-family: "Inter", sans-serif;
   font-weight: 800;
   font-style: normal;
 }
 
-.sarabun-thin-italic {
-  font-family: "Sarabun", sans-serif;
+.Inter-thin-italic {
+  font-family: "Inter", sans-serif;
   font-weight: 100;
   font-style: italic;
 }
 
-.sarabun-extralight-italic {
-  font-family: "Sarabun", sans-serif;
+.Inter-extralight-italic {
+  font-family: "Inter", sans-serif;
   font-weight: 200;
   font-style: italic;
 }
 
-.sarabun-light-italic {
-  font-family: "Sarabun", sans-serif;
+.Inter-light-italic {
+  font-family: "Inter", sans-serif;
   font-weight: 300;
   font-style: italic;
 }
 
-.sarabun-regular-italic {
-  font-family: "Sarabun", sans-serif;
+.Inter-regular-italic {
+  font-family: "Inter", sans-serif;
   font-weight: 400;
   font-style: italic;
 }
 
-.sarabun-medium-italic {
-  font-family: "Sarabun", sans-serif;
+.Inter-medium-italic {
+  font-family: "Inter", sans-serif;
   font-weight: 500;
   font-style: italic;
 }
 
-.sarabun-semibold-italic {
-  font-family: "Sarabun", sans-serif;
+.Inter-semibold-italic {
+  font-family: "Inter", sans-serif;
   font-weight: 600;
   font-style: italic;
 }
 
-.sarabun-bold-italic {
-  font-family: "Sarabun", sans-serif;
+.Inter-bold-italic {
+  font-family: "Inter", sans-serif;
   font-weight: 700;
   font-style: italic;
 }
 
-.sarabun-extrabold-italic {
-  font-family: "Sarabun", sans-serif;
+.Inter-extrabold-italic {
+  font-family: "Inter", sans-serif;
   font-weight: 800;
   font-style: italic;
 }
@@ -101,7 +101,7 @@
 body {
       font-family: sans-serif;
       padding: 20px;
-      background : #b1dbf8;
+      background : white;
     }
 .input-wrapper {
     margin-bottom: 10px;
@@ -121,22 +121,24 @@ body {
       display: block;
       width: 100%;
       font-size: 0.875rem;
-      color: #6b7280; /* text-gray-500 */
+      color: rgb(208, 206, 206); /* text-gray-500 */
       cursor: pointer;
     }
     .file-input::-webkit-file-upload-button {
       margin-right: 1rem;
       padding: 0.5rem 1rem;
-      border-radius: 9999px;
-      border: 0;
+      border-radius: 5px;
+      border: none;
       font-size: 0.875rem;
       font-weight: 600;
-      background-color: #eff6ff; /* bg-blue-50 */
-      color: #1d4ed8; /* text-blue-700 */
-      transition: background-color 0.2s;
+      background-color: #2E742B; /* bg-blue-50 */
+      color: white; /* text-blue-700 */
+      
+     
     }
     .file-input:hover::-webkit-file-upload-button {
-      background-color: #dbeafe; /* hover:file:bg-blue-100 */
+      background-color: #dbfee5;
+      color: #2E742B; /* hover:file:bg-blue-100 */
     }
     .button {
       margin-top: 1rem;
@@ -163,4 +165,53 @@ body {
 }
 .green-button:hover {
   background-color: #218838;
+}
+
+.head-info{
+  color: #2E742B;
+  text-align: center;
+  font-size: 25px;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.upload_dropZone {
+  color: #0f3c4b;
+  /* background-color: var(--colorPrimaryPale, #c8dadf); */
+  outline: 2px dashed var(--colorPrimaryHalf, #2E742B);
+  outline-offset: -12px;
+  transition:
+    outline-offset 0.2s ease-out,
+    outline-color 0.3s ease-in-out,
+    background-color 0.2s ease-out;
+  height: 400px;
+  border-radius: 15px;
+  margin: 15px;
+  padding: 80px 100px; /* ปรับได้ตามต้องการ */
+  box-sizing: border-box;
+}
+.hidden-input {
+  display: none;
+}
+.upload_dropZone.highlight {
+  outline-offset: -4px;
+  outline-color: var(--colorPrimaryNormal, #0576bd);
+  background-color: var(--colorPrimaryEighth, #c8dadf);
+}
+.upload_svg {
+  fill: var(--colorPrimaryNormal, #0576bd);
+}
+.btn-upload {
+  /* color: #fff; */
+  border-color: #2E742B;
+  /* background-color: var(--colorPrimaryNormal); */
+}
+.btn-upload:hover,
+.btn-upload:focus {
+  color: #fff;
+  background-color: var(--colorPrimaryGlare);
+}
+.upload_img {
+  width: calc(33.333% - (2rem / 3));
+  object-fit: contain;
 }
