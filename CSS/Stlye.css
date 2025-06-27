@@ -121,8 +121,8 @@ body {
       display: block;
       width: 100%;
       font-size: 0.875rem;
-      color: rgb(208, 206, 206); /* text-gray-500 */
-      cursor: pointer;
+      color: white; /* text-gray-500 */
+      /* cursor: pointer; */
     }
     .file-input::-webkit-file-upload-button {
       margin-right: 1rem;
@@ -143,20 +143,24 @@ body {
     .button {
       margin-top: 1rem;
       padding: 0.5rem 1rem;
-      background-color: #10b981; /* bg-green-500 */
+      background-color: #2E742B; /* bg-green-500 */
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 600;
+  
     }
     .selected-file {
       margin-top: 0.5rem;
-      font-size: 0.875rem;
-      color: #16a34a; /* text-green-600 */
+      font-size: 1rem;
+      color: #2E742B; /* text-green-600 */
+      
     }
 
 .green-button {
-  background-color: #28a745;
+  background-color: #2E742B;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
@@ -215,3 +219,11 @@ body {
   width: calc(33.333% - (2rem / 3));
   object-fit: contain;
 }
+.BoxShow{
+  border: #2E742B;
+  border-radius: 15px;
+  height: 150px;
+  width: auto;
+ 
+}
+

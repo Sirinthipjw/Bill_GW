@@ -1,6 +1,8 @@
 let excelData = [];
 const viewPdfBtn = document.getElementById("viewPDF");
-
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("fileInput");
+const fileName = document.getElementById("fileName");
 function numberToThaiText(number) {
   const numText = ['ศูนย์','หนึ่ง','สอง','สาม','สี่','ห้า','หก','เจ็ด','แปด','เก้า'];
   const rankText = ['','สิบ','ร้อย','พัน','หมื่น','แสน','ล้าน'];
@@ -45,8 +47,9 @@ document.getElementById("excelFile").addEventListener("change", function (e) {
     return;
   }
 
-  document.getElementById("fileName").textContent = "ไฟล์ที่เลือก: " + file.name;
+  document.getElementById("fileName").textContent = "Your Select File : " + file.name;
   document.getElementById("fileName").style.display = "block";
+  document.querySelector(".BoxShow").style.display = "block";
 
   const reader = new FileReader();
   reader.onload = function (evt) {
@@ -57,44 +60,18 @@ document.getElementById("excelFile").addEventListener("change", function (e) {
     excelData = XLSX.utils.sheet_to_json(worksheet);
     console.log("โหลดข้อมูลจาก Excel:", excelData);
 
-    if (excelData.length > 0) {
-      viewPdfBtn.style.display = "inline-block";
+   if (excelData.length > 0) {
+      viewPdfBtn.style.display = "inline-block"; // ✅ แสดงปุ่มเมื่อมีข้อมูล
     }
   };
   reader.readAsArrayBuffer(file);
 
-
-    document.getElementById("excelFile").addEventListener("change", function (e) {
+  // ✅ Event: เลือกไฟล์ด้วยปุ่ม
+  fileInput.addEventListener("change", function (e) {
     const file = e.target.files[0];
     handleExcelFile(file);
   });
 
-  // ✅ อัปโหลดแบบ Drag & Drop
-  ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
-    dropZone.addEventListener(eventName, e => {
-      e.preventDefault();
-      e.stopPropagation();
-    });
-  });
-
-  ["dragenter", "dragover"].forEach(eventName => {
-    dropZone.addEventListener(eventName, () => {
-      dropZone.style.borderColor = "#00aaff";
-      dropZone.style.backgroundColor = "#f0faff";
-    });
-  });
-
-  ["dragleave", "drop"].forEach(eventName => {
-    dropZone.addEventListener(eventName, () => {
-      dropZone.style.borderColor = "#ccc";
-      dropZone.style.backgroundColor = "#fff";
-    });
-  });
-
-  dropZone.addEventListener("drop", e => {
-    const file = e.dataTransfer.files[0];
-    handleExcelFile(file);
-  });
 });
 
 viewPdfBtn.addEventListener("click", async function () {
@@ -102,6 +79,13 @@ viewPdfBtn.addEventListener("click", async function () {
     alert("ไม่มีข้อมูลสำหรับสร้าง PDF");
     return;
   }
+  // if (fileName) {
+  //   fileName.textContent = "";
+  // }
+  // viewPdfBtn.disabled = true;
+  setTimeout(() => {
+    location.reload(); // รีเฟรชหน้า
+  }, 1500);
 
   const templateResponse = await fetch("Bill-template1.html");
   const templateHtml = await templateResponse.text();
