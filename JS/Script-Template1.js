@@ -1,27 +1,38 @@
 let excelData = [];
 const viewPdfBtn = document.getElementById("viewPDF");
 const dropZone = document.getElementById("dropZone");
-const fileInput = document.getElementById("fileInput");
+
 const fileName = document.getElementById("fileName");
 function numberToThaiText(number) {
-  const numText = ['ศูนย์','หนึ่ง','สอง','สาม','สี่','ห้า','หก','เจ็ด','แปด','เก้า'];
-  const rankText = ['','สิบ','ร้อย','พัน','หมื่น','แสน','ล้าน'];
+  const numText = [
+    "ศูนย์",
+    "หนึ่ง",
+    "สอง",
+    "สาม",
+    "สี่",
+    "ห้า",
+    "หก",
+    "เจ็ด",
+    "แปด",
+    "เก้า",
+  ];
+  const rankText = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"];
 
   number = parseFloat(number).toFixed(2);
-  const [intPart, decPart] = number.split('.');
+  const [intPart, decPart] = number.split(".");
 
   function convert(numStr) {
-    let result = '';
+    let result = "";
     const len = numStr.length;
     for (let i = 0; i < len; i++) {
       const digit = parseInt(numStr[i]);
       if (digit === 0) continue;
       if (i === len - 1 && digit === 1 && len > 1) {
-        result += 'เอ็ด';
+        result += "เอ็ด";
       } else if (i === len - 2 && digit === 2) {
-        result += 'ยี่';
+        result += "ยี่";
       } else if (i === len - 2 && digit === 1) {
-        result += '';
+        result += "";
       } else {
         result += numText[digit];
       }
@@ -30,15 +41,14 @@ function numberToThaiText(number) {
     return result;
   }
 
-  let text = convert(intPart) + 'บาท';
-  if (decPart === '00') {
-    text += 'ถ้วน';
+  let text = convert(intPart) + "บาท";
+  if (decPart === "00") {
+    text += "ถ้วน";
   } else {
-    text += convert(decPart) + 'สตางค์';
+    text += convert(decPart) + "สตางค์";
   }
   return text;
 }
-
 
 document.getElementById("excelFile").addEventListener("change", function (e) {
   const file = e.target.files[0];
@@ -47,7 +57,8 @@ document.getElementById("excelFile").addEventListener("change", function (e) {
     return;
   }
 
-  document.getElementById("fileName").textContent = "Your Select File : " + file.name;
+  document.getElementById("fileName").textContent =
+    "Your Select File : " + file.name;
   document.getElementById("fileName").style.display = "block";
   document.querySelector(".BoxShow").style.display = "block";
 
@@ -60,18 +71,17 @@ document.getElementById("excelFile").addEventListener("change", function (e) {
     excelData = XLSX.utils.sheet_to_json(worksheet);
     console.log("โหลดข้อมูลจาก Excel:", excelData);
 
-   if (excelData.length > 0) {
+    if (excelData.length > 0) {
       viewPdfBtn.style.display = "inline-block"; // ✅ แสดงปุ่มเมื่อมีข้อมูล
     }
   };
   reader.readAsArrayBuffer(file);
-
+  const fileInput = document.getElementById("fileInput");
   // ✅ Event: เลือกไฟล์ด้วยปุ่ม
   fileInput.addEventListener("change", function (e) {
     const file = e.target.files[0];
     handleExcelFile(file);
   });
-
 });
 
 viewPdfBtn.addEventListener("click", async function () {
@@ -97,16 +107,16 @@ viewPdfBtn.addEventListener("click", async function () {
     format: "A5",
   });
 
-  const uniqueCONums = [...new Set(excelData.map(row => row.CONum))];
+  const uniqueCONums = [...new Set(excelData.map((row) => row.CONum))];
   // ✅ ใช้ for...of + await เพื่อให้รอการ render
 
-for (const conum of uniqueCONums) {
-   const allItems = excelData.filter(row => row.CONum === conum);
-  const data = allItems[0]; // ใช้ข้อมูลหลักจากรายการแรก
+  for (const conum of uniqueCONums) {
+    const allItems = excelData.filter((row) => row.CONum === conum);
+    const data = allItems[0]; // ใช้ข้อมูลหลักจากรายการแรก
 
-  if (uniqueCONums.indexOf(conum) > 0) doc.addPage();
+    if (uniqueCONums.indexOf(conum) > 0) doc.addPage();
 
-     let filledHtml = templateHtml;
+    let filledHtml = templateHtml;
 
     // ✅ แปลง TotalPrice เป็นตัวหนังสือ
     const totalPriceText = numberToThaiText(data.TotalPrice);
@@ -123,7 +133,7 @@ for (const conum of uniqueCONums) {
     }
     data.BranchInfo = branchInfo;
 
-     // ✅ แยกสินค้าหลัก/ของแถมตาม CONum
+    // ✅ แยกสินค้าหลัก/ของแถมตาม CONum
     // const allItems = excelData.filter(row => row.CONum === data.CONum);
     let mainProducts = [];
     let freeProducts = [];
@@ -134,19 +144,33 @@ for (const conum of uniqueCONums) {
       freeProducts = [];
     } else {
       // กรณีมีหลายรายการ → แยกสินค้าหลัก/ของแถมตาม PromoCode
-      mainProducts = allItems.filter(item => !!item.PromoCode && item.PromoCode.toString().trim() !== "");
-      freeProducts = allItems.filter(item => !item.PromoCode || item.PromoCode.toString().trim() === "");
+      mainProducts = allItems.filter(
+        (item) => !!item.PromoCode && item.PromoCode.toString().trim() !== ""
+      );
+      freeProducts = allItems.filter(
+        (item) => !item.PromoCode || item.PromoCode.toString().trim() === ""
+      );
     }
 
-
-    const freeProductNames = freeProducts.map(item => item.ProductList).join(", ");
+    const freeProductNames = freeProducts
+      .map((item) => item.ProductList)
+      .join(", ");
     filledHtml = filledHtml.replace(/{{FreeProductList}}/g, freeProductNames);
 
     const mainProduct = mainProducts[0] || {};
-    filledHtml = filledHtml.replace(/{{ProductList}}/g, mainProduct.ProductList || "");
+    filledHtml = filledHtml.replace(
+      /{{ProductList}}/g,
+      mainProduct.ProductList || ""
+    );
     filledHtml = filledHtml.replace(/{{Qty}}/g, mainProduct.Qty || "");
-    filledHtml = filledHtml.replace(/{{UnitPrice_Formatted}}/g, formatCurrency(mainProduct.UnitPrice));
-    filledHtml = filledHtml.replace(/{{Price_Formatted}}/g, formatCurrency(mainProduct.Price));
+    filledHtml = filledHtml.replace(
+      /{{UnitPrice_Formatted}}/g,
+      formatCurrency(mainProduct.UnitPrice)
+    );
+    filledHtml = filledHtml.replace(
+      /{{Price_Formatted}}/g,
+      formatCurrency(mainProduct.Price)
+    );
 
     function isValidValue(val) {
       if (val === null || val === undefined) return false;
@@ -160,17 +184,18 @@ for (const conum of uniqueCONums) {
 
       return false;
     }
-   
 
     function safeValue(val) {
       if (val === null || val === undefined) return "";
-      if (typeof val === "string" && val.trim().toLowerCase() === "null") return "";
-      if (typeof val === "string" && val.trim().toLowerCase() === "undefined") return "";
-      if (typeof val === "string" && val.trim().toLowerCase() === "-") return "";
+      if (typeof val === "string" && val.trim().toLowerCase() === "null")
+        return "";
+      if (typeof val === "string" && val.trim().toLowerCase() === "undefined")
+        return "";
+      if (typeof val === "string" && val.trim().toLowerCase() === "-")
+        return "";
       return val;
     }
 
-    
     function formatCurrency(value) {
       const num = parseFloat(value);
       if (isNaN(num)) return ""; // ถ้าไม่ใช่ตัวเลขให้คืนค่าว่าง
@@ -182,14 +207,21 @@ for (const conum of uniqueCONums) {
     function formatDate(dateStr) {
       if (!dateStr) return "";
       const date = new Date(dateStr);
-      const localDate = new Date(date.getTime() + (7 * 60 * 60 * 1000)); // ปรับเป็นเวลาไทย
+      const localDate = new Date(date.getTime() + 7 * 60 * 60 * 1000); // ปรับเป็นเวลาไทย
       const day = String(localDate.getDate()).padStart(2, "0");
       const month = String(localDate.getMonth() + 1).padStart(2, "0");
       const year = localDate.getFullYear();
       return `${day}/${month}/${year}`;
     }
 
-    const priceFields = ["UnitPrice", "Price", "Disc", "SumPrice", "Vat", "TotalPrice"];
+    const priceFields = [
+      "UnitPrice",
+      "Price",
+      "Disc",
+      "SumPrice",
+      "Vat",
+      "TotalPrice",
+    ];
 
     // Object.entries(data).forEach(([key, value]) => {
     // const regex = new RegExp(`{{${key}}}`, "g");
@@ -206,33 +238,54 @@ for (const conum of uniqueCONums) {
       let cleanValue = safeValue(value);
       const regexBase = new RegExp(`{{${key}}}`, "g");
       filledHtml = filledHtml.replace(regexBase, cleanValue);
-     
+
       // เพิ่มเติม: ถ้าเป็นจำนวนเงิน แปลงเป็นรูปแบบไทย + ข้อความ
       if (priceFields.includes(key)) {
         const formattedValue = formatCurrency(cleanValue);
-        filledHtml = filledHtml.replace(new RegExp(`{{${key}_Formatted}}`, "g"), formattedValue);
+        filledHtml = filledHtml.replace(
+          new RegExp(`{{${key}_Formatted}}`, "g"),
+          formattedValue
+        );
 
         const textValue = numberToThaiText(cleanValue);
-        filledHtml = filledHtml.replace(new RegExp(`{{${key}_Text}}`, "g"), textValue);
+        filledHtml = filledHtml.replace(
+          new RegExp(`{{${key}_Text}}`, "g"),
+          textValue
+        );
       }
       if (!safeValue(data.Model)) {
-        filledHtml = filledHtml.replace(/<div[^>]*class=["']model-line["'][^>]*>.*?<\/div>\s*/g, "แบบรถ : ");
+        filledHtml = filledHtml.replace(
+          /<div[^>]*class=["']model-line["'][^>]*>.*?<\/div>\s*/g,
+          "แบบรถ : "
+        );
       }
 
       if (!safeValue(data.Color)) {
-        filledHtml = filledHtml.replace(/<div[^>]*class=["']color-line["'][^>]*>.*?<\/div>\s*/g, '<div class="color-line">สี : </div>');
+        filledHtml = filledHtml.replace(
+          /<div[^>]*class=["']color-line["'][^>]*>.*?<\/div>\s*/g,
+          '<div class="color-line">สี : </div>'
+        );
       }
 
       if (!safeValue(data.CertNum)) {
-        filledHtml = filledHtml.replace(/<div[^>]*class=["']CertNum-line["'][^>]*>.*?<\/div>\s*/g, '<div class="CertNum-line">หมายเลขเครื่อง : </div>');
+        filledHtml = filledHtml.replace(
+          /<div[^>]*class=["']CertNum-line["'][^>]*>.*?<\/div>\s*/g,
+          '<div class="CertNum-line">หมายเลขเครื่อง : </div>'
+        );
       }
 
       if (!safeValue(data.SeriNum)) {
-        filledHtml = filledHtml.replace(/<div[^>]*class=["']SeriNum-line["'][^>]*>.*?<\/div>\s*/g, '<div class="SeriNum-line">หมายเลขตัวถัง : </div>');
+        filledHtml = filledHtml.replace(
+          /<div[^>]*class=["']SeriNum-line["'][^>]*>.*?<\/div>\s*/g,
+          '<div class="SeriNum-line">หมายเลขตัวถัง : </div>'
+        );
       }
 
       if (!safeValue(data.RefCust)) {
-        filledHtml = filledHtml.replace(/<div[^>]*class=["']RefCust-line["'][^>]*>.*?<\/div>\s*/g, '<div class="RefCust-line">&nbsp;</div>');
+        filledHtml = filledHtml.replace(
+          /<div[^>]*class=["']RefCust-line["'][^>]*>.*?<\/div>\s*/g,
+          '<div class="RefCust-line">&nbsp;</div>'
+        );
       }
 
       filledHtml = filledHtml.replace(/{{Date}}/g, formatDate(data.Date));
@@ -243,14 +296,13 @@ for (const conum of uniqueCONums) {
     container.style.position = "absolute";
     container.style.left = "-9999px";
     document.body.appendChild(container);
-    
+
     const canvas = await html2canvas(container, { scale: 3 });
     const imgData = canvas.toDataURL("image/png");
     const margin = 5; // เว้นขอบ 5mm รอบด้าน
     const pdfWidth = doc.internal.pageSize.getWidth() - margin * 2;
     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
     doc.addImage(imgData, "PNG", margin, margin, pdfWidth, pdfHeight);
-
 
     container.remove();
   }
