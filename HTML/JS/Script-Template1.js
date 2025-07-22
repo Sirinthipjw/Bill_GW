@@ -102,9 +102,9 @@ viewPdfBtn.addEventListener("click", async function () {
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({
-    orientation: "landscape",
+    orientation: "portrait",
     unit: "mm",
-    format: "A5",
+    format: "A4",
   });
 
   const uniqueCONums = [...new Set(excelData.map((row) => row.CONum))];

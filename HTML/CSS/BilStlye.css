@@ -67,7 +67,7 @@ body{
     background-color: white;
 }
  @page {
-    size: A5 landscape;
+    size: A4 portrait;
     margin: 10mm;
   }
 
@@ -96,7 +96,7 @@ body{
     background: white;
     padding-left: 20px;
     font-family: 'helvetica';
-    font-size: 6pt;
+    font-size: 7pt;
 }
 
 h1{
