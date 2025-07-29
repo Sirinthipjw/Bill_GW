@@ -37,9 +37,13 @@
                 <div class="col-8">
                     <p>เลขประจำตัวผู้เสียภาษีอากร : {{TaxCom}}</p>
                 </div>
+                <!-- <div class="col-4">
+                    <p>วันที่ : {{CreateDate}}</p>
+                </div> -->
                 <div class="col-4">
-                    <p>วันที่ : {{Date}}</p>
+                    <p>วันที่ : {{CreateDate}}</p>
                 </div>
+
             </div>
             <div class="row" style="margin-top: -10px;">
                 <div class="col-5">
@@ -67,7 +71,8 @@
                     <p>ที่อยู่ : {{AddrCom}} {{DistrictCom}} {{SubdistrictCom}} {{ProvinceCom}} {{ZipCom}}</p>
                 </div>
                 <div class="col-4">
-                    <p>สัญญาเลขที่ : {{ContractNum}}</p>
+                    <!-- <p>สัญญาเลขที่ : {{ContractNum}}</p> -->
+                     <div class="ContractNum-line">สัญญาเลขที่ : {{ContractNum}}</div>
                 </div>
             </div>
             <div class="row" style="margin-top: -10px;">
@@ -181,7 +186,8 @@
         </div>
         <div class="row" style="margin-top: -15px;">
             <div class="col-6">
-                <p>หมายเหตุ : {{Comment}}</p>
+                <!-- <p>หมายเหตุ : {{Comment}}</p> -->
+                <div class="Comment-line">หมายเหตุ : {{Comment}}</div>
             </div>
             <div class="col-3">
                 <p>ราคารวมสินค้า</p>

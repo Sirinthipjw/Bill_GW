@@ -1,7 +1,7 @@
 let excelData = [];
 const viewPdfBtn = document.getElementById("viewPDF");
 const dropZone = document.getElementById("dropZone");
-
+const rawDate = document.getElementById("create-date");
 const fileName = document.getElementById("fileName");
 function numberToThaiText(number) {
   const numText = [
@@ -124,7 +124,8 @@ viewPdfBtn.addEventListener("click", async function () {
 
     // ✅ สร้าง BranchInfo
     const rawBranchId = data.BranchIdCust;
-    const rawBranchName = data.BranchNameCust;
+    // const rawBranchName = data.BranchNameCust;
+     const rawBranchName = "สำนักงานใหญ่";
 
     let branchInfo = "";
     if (isValidValue(rawBranchId) && isValidValue(rawBranchName)) {
@@ -193,6 +194,10 @@ viewPdfBtn.addEventListener("click", async function () {
         return "";
       if (typeof val === "string" && val.trim().toLowerCase() === "-")
         return "";
+      if (typeof val === "string" && val.trim().toLowerCase() === "")
+        return "";
+      if (typeof val === "string" && val.trim().toLowerCase() === " ")
+        return "";
       return val;
     }
 
@@ -204,16 +209,47 @@ viewPdfBtn.addEventListener("click", async function () {
         maximumFractionDigits: 2,
       });
     }
-    function formatDate(dateStr) {
-      if (!dateStr) return "";
-      const date = new Date(dateStr);
-      const localDate = new Date(date.getTime() + 7 * 60 * 60 * 1000); // ปรับเป็นเวลาไทย
-      const day = String(localDate.getDate()).padStart(2, "0");
-      const month = String(localDate.getMonth() + 1).padStart(2, "0");
-      const year = localDate.getFullYear();
-      return `${day}/${month}/${year}`;
+
+    //TimeStamp
+    // function formatDate(dateStr) {
+    //   if (!dateStr) return "";
+    //   const date = new Date(dateStr);
+    //   const localDate = new Date(date.getTime() + 7 * 60 * 60 * 1000); // ปรับเป็นเวลาไทย
+    //   const day = String(localDate.getDate()).padStart(2, "0");
+    //   const month = String(localDate.getMonth() + 1).padStart(2, "0");
+    //   const year = localDate.getFullYear();
+    //   return `${day}/${month}/${year}`;
+    // }
+
+    //05/27/2025 9:17 AM format
+    function formatDateOnly(datetimeStr) {
+    if (!datetimeStr) return "";
+    const datePart = datetimeStr.split(' ')[0];
+    const [month, day, year] = datePart.split('/');
+    if (!month || !day || !year) return "";
+    return `${day}/${month}/${year}`;
     }
 
+    //Serial
+  //   function excelSerialToDate(serial) {
+  //   const excelEpoch = new Date(Date.UTC(1899, 11, 30));
+  //   const msPerDay = 24 * 60 * 60 * 1000;
+  //   const date = new Date(excelEpoch.getTime() + serial * msPerDay);
+
+  //   const day = String(date.getUTCDate()).padStart(2, '0');
+  //   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  //   const year = date.getUTCFullYear();
+  //   const hour = String(date.getUTCHours()).padStart(2, '0');
+  //   const minute = String(date.getUTCMinutes()).padStart(2, '0');
+
+   
+  //   return `${day}/${month}/${year} `;
+  //  }
+
+   
+
+
+   
     const priceFields = [
       "UnitPrice",
       "Price",
@@ -281,6 +317,22 @@ viewPdfBtn.addEventListener("click", async function () {
         );
       }
 
+    
+
+       if (!safeValue(data.Comment)) {
+        filledHtml = filledHtml.replace(
+          /<div[^>]*class=["']ContractNum-line["'][^>]*>.*?<\/div>\s*/g,
+          '<div class="ContractNum-line">สัญญาเลขที่ : </div>'
+        );
+      }
+
+    if (!safeValue(data.Comment)) {
+        filledHtml = filledHtml.replace(
+          /<div[^>]*class=["']Comment-line["'][^>]*>.*?<\/div>\s*/g,
+          '<div class="Comment-line">หมายเหตุ : </div>'
+        );
+      }
+ 
       if (!safeValue(data.RefCust)) {
         filledHtml = filledHtml.replace(
           /<div[^>]*class=["']RefCust-line["'][^>]*>.*?<\/div>\s*/g,
@@ -288,7 +340,10 @@ viewPdfBtn.addEventListener("click", async function () {
         );
       }
 
-      filledHtml = filledHtml.replace(/{{Date}}/g, formatDate(data.Date));
+  //  filledHtml = filledHtml.replace(/{{CreateDate}}/g, excelSerialToDate(data.CreateDate));
+
+   filledHtml = filledHtml.replace(/{{CreateDate}}/g, formatDateOnly(data.CreateDate));
+
     });
 
     const container = document.createElement("div");
