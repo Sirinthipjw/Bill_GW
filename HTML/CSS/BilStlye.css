@@ -2,11 +2,11 @@
 
 @font-face {
     font-family: 'helvetica';
-    src: url('../fonts/helvetica-bold-webfont.eot');
-    src: url('../fonts/helvetica-bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/helvetica-bold-webfont.woff2') format('woff2'),
-         url('../fonts/helvetica-bold-webfont.woff') format('woff'),
-         url('../fonts/helvetica-bold-webfont.ttf') format('truetype');
+    src: url('/fonts/helvetica-bold-webfont.eot');
+    src: url('/fonts/helvetica-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/helvetica-bold-webfont.woff2') format('woff2'),
+         url('/fonts/helvetica-bold-webfont.woff') format('woff'),
+         url('/fonts/helvetica-bold-webfont.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
 
@@ -14,11 +14,11 @@
 
 @font-face {
     font-family: 'helvetica';
-    src: url('../fonts/helvetica-boldoblique-webfont.eot');
-    src: url('../fonts/helvetica-boldoblique-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/helvetica-boldoblique-webfont.woff2') format('woff2'),
-         url('../fonts/helvetica-boldoblique-webfont.woff') format('woff'),
-         url('../fonts/helvetica-boldoblique-webfont.ttf') format('truetype');
+    src: url('/fonts/helvetica-boldoblique-webfont.eot');
+    src: url('/fonts/helvetica-boldoblique-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/helvetica-boldoblique-webfont.woff2') format('woff2'),
+         url('/fonts/helvetica-boldoblique-webfont.woff') format('woff'),
+         url('/fonts/helvetica-boldoblique-webfont.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
 
@@ -26,11 +26,11 @@
 
 @font-face {
     font-family: 'helvetica';
-    src: url('../fonts/helvetica-oblique-webfont.eot');
-    src: url('../fonts/helvetica-oblique-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/helvetica-oblique-webfont.woff2') format('woff2'),
-         url('../fonts/helvetica-oblique-webfont.woff') format('woff'),
-         url('../fonts/helvetica-oblique-webfont.ttf') format('truetype');
+    src: url('/fonts/helvetica-oblique-webfont.eot');
+    src: url('/fonts/helvetica-oblique-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/helvetica-oblique-webfont.woff2') format('woff2'),
+         url('/fonts/helvetica-oblique-webfont.woff') format('woff'),
+         url('/fonts/helvetica-oblique-webfont.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
 
@@ -38,11 +38,11 @@
 
 @font-face {
     font-family: 'helvetica';
-    src: url('../fonts/helvetica-webfont.eot');
-    src: url('../fonts/helvetica-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/helvetica-webfont.woff2') format('woff2'),
-         url('../fonts/helvetica-webfont.woff') format('woff'),
-         url('../fonts/helvetica-webfont.ttf') format('truetype');
+    src: url('/fonts/helvetica-webfont.eot');
+    src: url('/fonts/helvetica-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/helvetica-webfont.woff2') format('woff2'),
+         url('/fonts/helvetica-webfont.woff') format('woff'),
+         url('/fonts/helvetica-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 

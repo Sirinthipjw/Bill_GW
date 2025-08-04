@@ -76,13 +76,16 @@ document.getElementById("excelFile").addEventListener("change", function (e) {
     }
   };
   reader.readAsArrayBuffer(file);
-  const fileInput = document.getElementById("fileInput");
+  const fileInput = document.getElementById("fileName");
   // ✅ Event: เลือกไฟล์ด้วยปุ่ม
   fileInput.addEventListener("change", function (e) {
     const file = e.target.files[0];
     handleExcelFile(file);
   });
 });
+
+
+
 
 viewPdfBtn.addEventListener("click", async function () {
   if (excelData.length === 0) {
@@ -93,9 +96,9 @@ viewPdfBtn.addEventListener("click", async function () {
   //   fileName.textContent = "";
   // }
   // viewPdfBtn.disabled = true;
-  setTimeout(() => {
-    location.reload(); // รีเฟรชหน้า
-  }, 1500);
+  // setTimeout(() => {
+  //   location.reload(); // รีเฟรชหน้า
+  // }, 1500);
 
   const templateResponse = await fetch("Bill-template1.html");
   const templateHtml = await templateResponse.text();
@@ -221,30 +224,30 @@ viewPdfBtn.addEventListener("click", async function () {
     //   return `${day}/${month}/${year}`;
     // }
 
-    //05/27/2025 9:17 AM format
-    function formatDateOnly(datetimeStr) {
-    if (!datetimeStr) return "";
-    const datePart = datetimeStr.split(' ')[0];
-    const [month, day, year] = datePart.split('/');
-    if (!month || !day || !year) return "";
-    return `${day}/${month}/${year}`;
-    }
+   // 05/27/2025 9:17 AM format
+    // function formatDateOnly(datetimeStr) {
+    // if (!datetimeStr) return "";
+    // const datePart = datetimeStr.split(' ')[0];
+    // const [month, day, year] = datePart.split('/');
+    // if (!month || !day || !year) return "";
+    // return `${day}/${month}/${year}`;
+    // }
 
     //Serial
-  //   function excelSerialToDate(serial) {
-  //   const excelEpoch = new Date(Date.UTC(1899, 11, 30));
-  //   const msPerDay = 24 * 60 * 60 * 1000;
-  //   const date = new Date(excelEpoch.getTime() + serial * msPerDay);
+    function excelSerialToDate(serial) {
+    const excelEpoch = new Date(Date.UTC(1899, 11, 30));
+    const msPerDay = 24 * 60 * 60 * 1000;
+    const date = new Date(excelEpoch.getTime() + serial * msPerDay);
 
-  //   const day = String(date.getUTCDate()).padStart(2, '0');
-  //   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  //   const year = date.getUTCFullYear();
-  //   const hour = String(date.getUTCHours()).padStart(2, '0');
-  //   const minute = String(date.getUTCMinutes()).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const year = date.getUTCFullYear();
+    const hour = String(date.getUTCHours()).padStart(2, '0');
+    const minute = String(date.getUTCMinutes()).padStart(2, '0');
 
    
-  //   return `${day}/${month}/${year} `;
-  //  }
+    return `${day}/${month}/${year} `;
+  }
 
    
 
@@ -340,9 +343,16 @@ viewPdfBtn.addEventListener("click", async function () {
         );
       }
 
-  //  filledHtml = filledHtml.replace(/{{CreateDate}}/g, excelSerialToDate(data.CreateDate));
+      if (!safeValue(data.TaxCust-line)) {
+        filledHtml = filledHtml.replace(
+          /<div[^>]*class=["']TaxCust-line["'][^>]*>.*?<\/div>\s*/g,
+          '<div class="TaxCust-line">&nbsp;</div>'
+        );
+      }
 
-   filledHtml = filledHtml.replace(/{{CreateDate}}/g, formatDateOnly(data.CreateDate));
+  filledHtml = filledHtml.replace(/{{CreateDate}}/g, excelSerialToDate(data.CreateDate));
+
+   //filledHtml = filledHtml.replace(/{{CreateDate}}/g, formatDateOnly(data.CreateDate));
 
     });
 
@@ -379,4 +389,9 @@ viewPdfBtn.addEventListener("click", async function () {
   iframe.src = url;
   win.document.body.style.margin = "0";
   win.document.body.appendChild(iframe);
+
+
+    setTimeout(() => {
+    location.reload();
+  }, 10000);
 });
