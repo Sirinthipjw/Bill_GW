@@ -3,30 +3,72 @@ const viewPdfBtn = document.getElementById("viewPDF");
 const dropZone = document.getElementById("dropZone");
 const rawDate = document.getElementById("create-date");
 const fileName = document.getElementById("fileName");
+// function numberToThaiText(number) {
+//   const numText = [
+//     "ศูนย์",
+//     "หนึ่ง",
+//     "สอง",
+//     "สาม",
+//     "สี่",
+//     "ห้า",
+//     "หก",
+//     "เจ็ด",
+//     "แปด",
+//     "เก้า",
+//   ];
+//   const rankText = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"];
+
+//   number = parseFloat(number).toFixed(2);
+//   const [intPart, decPart] = number.split(".");
+
+//   function convert(numStr) {
+//     let result = "";
+//     const len = numStr.length;
+//     for (let i = 0; i < len; i++) {
+//       const digit = parseInt(numStr[i]);
+//       if (digit === 0) continue;
+//       if (i === len - 1 && digit === 1 && len > 1) {
+//         result += "เอ็ด";
+//       } else if (i === len - 2 && digit === 2) {
+//         result += "ยี่";
+//       } else if (i === len - 2 && digit === 1) {
+//         result += "";
+//       } else {
+//         result += numText[digit];
+//       }
+//       result += rankText[len - i - 1];
+//     }
+//     return result;
+//   }
+
+//   let text = convert(intPart) + "บาท";
+//   if (decPart === "00") {
+//     text += "ถ้วน";
+//   } else {
+//     text += convert(decPart) + "สตางค์";
+//   }
+//   return text;
+// }
+
 function numberToThaiText(number) {
-  const numText = [
-    "ศูนย์",
-    "หนึ่ง",
-    "สอง",
-    "สาม",
-    "สี่",
-    "ห้า",
-    "หก",
-    "เจ็ด",
-    "แปด",
-    "เก้า",
-  ];
+  const numText = ["ศูนย์", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"];
   const rankText = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"];
+
+  if (isNaN(number) || number === null || number === undefined || number === "") {
+    return "";
+  }
 
   number = parseFloat(number).toFixed(2);
   const [intPart, decPart] = number.split(".");
 
   function convert(numStr) {
     let result = "";
+    if (typeof numStr !== "string" || !numStr.trim().length) return "";
     const len = numStr.length;
     for (let i = 0; i < len; i++) {
       const digit = parseInt(numStr[i]);
-      if (digit === 0) continue;
+      if (isNaN(digit) || digit === 0) continue;
+
       if (i === len - 1 && digit === 1 && len > 1) {
         result += "เอ็ด";
       } else if (i === len - 2 && digit === 2) {
@@ -47,13 +89,15 @@ function numberToThaiText(number) {
   } else {
     text += convert(decPart) + "สตางค์";
   }
+
   return text;
 }
 
+
 document.getElementById("excelFile").addEventListener("change", function (e) {
   const file = e.target.files[0];
-  if (!file || !file.name.endsWith(".xlsx")) {
-    alert("กรุณาเลือกไฟล์ .xlsx เท่านั้น");
+  if (!file || !file.name.endsWith(".csv")) {
+    alert("กรุณาเลือกไฟล์ .csv เท่านั้น");
     return;
   }
 
@@ -110,52 +154,107 @@ viewPdfBtn.addEventListener("click", async function () {
     format: "A4",
   });
 
-  const uniqueCONums = [...new Set(excelData.map((row) => row.CONum))];
-  // ✅ ใช้ for...of + await เพื่อให้รอการ render
 
-  for (const conum of uniqueCONums) {
-    const allItems = excelData.filter((row) => row.CONum === conum);
-    const data = allItems[0]; // ใช้ข้อมูลหลักจากรายการแรก
+  //ใช้ conum เป็นตัวกรอง
+  // const uniqueCONums = [...new Set(excelData.map((row) => row.CONum))];
+  // // ✅ ใช้ for...of + await เพื่อให้รอการ render
 
-    if (uniqueCONums.indexOf(conum) > 0) doc.addPage();
+  // for (const conum of uniqueCONums) {
+  //   const allItems = excelData.filter((row) => row.CONum === conum);
+  //   const InvGroup = excelData.filter((row) => row.Invoice_Group === InvGroup);
+  //   const data = allItems[0]; // ใช้ข้อมูลหลักจากรายการแรก
 
-    let filledHtml = templateHtml;
+  //   if (uniqueCONums.indexOf(conum) > 0) doc.addPage();
 
-    // ✅ แปลง TotalPrice เป็นตัวหนังสือ
-    const totalPriceText = numberToThaiText(data.TotalPrice);
-    filledHtml = filledHtml.replace(/{{TotalPriceText}}/g, totalPriceText);
+  //   let filledHtml = templateHtml;
 
-    // ✅ สร้าง BranchInfo
-    const rawBranchId = data.BranchIdCust;
-    // const rawBranchName = data.BranchNameCust;
-     const rawBranchName = "สำนักงานใหญ่";
+  //   // ✅ แปลง TotalPrice เป็นตัวหนังสือ
+  //   const totalPriceText = numberToThaiText(data.TotalPrice);
+  //   filledHtml = filledHtml.replace(/{{TotalPriceText}}/g, totalPriceText);
 
-    let branchInfo = "";
-    if (isValidValue(rawBranchId) && isValidValue(rawBranchName)) {
-      const paddedBranchId = String(rawBranchId).padStart(5, "0");
-      branchInfo = ` สาขาที่ : ${paddedBranchId} ${rawBranchName}`;
-    }
-    data.BranchInfo = branchInfo;
+  //   // ✅ สร้าง BranchInfo
+  //   const rawBranchId = data.BranchIdCust;
+  //   // const rawBranchName = data.BranchNameCust;
+  //    const rawBranchName = "สำนักงานใหญ่";
 
-    // ✅ แยกสินค้าหลัก/ของแถมตาม CONum
-    // const allItems = excelData.filter(row => row.CONum === data.CONum);
-    let mainProducts = [];
-    let freeProducts = [];
+  //   let branchInfo = "";
+  //   if (isValidValue(rawBranchId) && isValidValue(rawBranchName)) {
+  //     const paddedBranchId = String(rawBranchId).padStart(5, "0");
+  //     branchInfo = ` สาขาที่ : ${paddedBranchId} ${rawBranchName}`;
+  //   }
+  //   data.BranchInfo = branchInfo;
 
-    if (allItems.length === 1) {
-      // กรณีมีแค่ 1 รายการ → ให้เป็นสินค้าหลัก
-      mainProducts = allItems;
-      freeProducts = [];
-    } else {
-      // กรณีมีหลายรายการ → แยกสินค้าหลัก/ของแถมตาม PromoCode
-      mainProducts = allItems.filter(
-        (item) => !!item.PromoCode && item.PromoCode.toString().trim() !== ""
-      );
-      freeProducts = allItems.filter(
-        (item) => !item.PromoCode || item.PromoCode.toString().trim() === ""
-      );
-    }
+  //   // ✅ แยกสินค้าหลัก/ของแถมตาม CONum
+  //   // const allItems = excelData.filter(row => row.CONum === data.CONum);
+  //   let mainProducts = [];
+  //   let freeProducts = [];
 
+  //   if (allItems.length === 1) {
+  //     // กรณีมีแค่ 1 รายการ → ให้เป็นสินค้าหลัก
+  //     mainProducts = allItems;
+  //     freeProducts = [];
+  //   } else {
+  //     // กรณีมีหลายรายการ → แยกสินค้าหลัก/ของแถมตาม PromoCode
+  //     mainProducts = allItems.filter(
+  //       (item) => !!item.PromoCode && item.PromoCode.toString().trim() !== ""
+  //     );
+  //     freeProducts = allItems.filter(
+  //       (item) => !item.PromoCode || item.PromoCode.toString().trim() === ""
+  //     );
+  //   }
+
+const uniqueGroups = [
+  ...new Set(excelData.map(row => `${row.CONum}__${row.Invoice_Group}`))
+];
+
+for (const groupKey of uniqueGroups) {
+  const [conum, invoiceGroup] = groupKey.split("__");
+
+  const allItems = excelData.filter(
+    row => row.CONum === conum && row.Invoice_Group === invoiceGroup
+  );
+
+  if (allItems.length === 0) {
+  console.warn(`ไม่พบข้อมูลสำหรับ CONum=${conum}, Invoice_Group=${invoiceGroup}`);
+  continue; // ข้ามไปกลุ่มถัดไป
+}
+
+
+  const data = allItems[0];
+
+  if (uniqueGroups.indexOf(groupKey) > 0) doc.addPage();
+
+  let filledHtml = templateHtml;
+
+  // แปลง TotalPrice เป็นตัวหนังสือ
+  const totalPriceText = numberToThaiText(data.TotalPrice);
+  filledHtml = filledHtml.replace(/{{TotalPriceText}}/g, totalPriceText);
+
+  // สร้าง BranchInfo
+  const rawBranchId = data.BranchIdCust;
+  const rawBranchName = "สำนักงานใหญ่";
+
+  let branchInfo = "";
+  if (isValidValue(rawBranchId) && isValidValue(rawBranchName)) {
+    const paddedBranchId = String(rawBranchId).padStart(5, "0");
+    branchInfo = ` สาขาที่ : ${paddedBranchId} ${rawBranchName}`;
+  }
+  data.BranchInfo = branchInfo;
+
+  // แยกสินค้าหลัก/ของแถม
+  let mainProducts = [];
+  let freeProducts = [];
+
+  if (allItems.length === 1) {
+    mainProducts = allItems;
+  } else {
+    mainProducts = allItems.filter(
+      item => !!item.PromoCode && item.PromoCode.toString().trim() !== ""
+    );
+    freeProducts = allItems.filter(
+      item => !item.PromoCode || item.PromoCode.toString().trim() === ""
+    );
+  }  
     const freeProductNames = freeProducts
       .map((item) => item.ProductList)
       .join(", ");
@@ -343,7 +442,7 @@ viewPdfBtn.addEventListener("click", async function () {
         );
       }
 
-      if (!safeValue(data.TaxCust-line)) {
+      if (!safeValue(data.TaxCust)) {
         filledHtml = filledHtml.replace(
           /<div[^>]*class=["']TaxCust-line["'][^>]*>.*?<\/div>\s*/g,
           '<div class="TaxCust-line">&nbsp;</div>'
@@ -362,20 +461,34 @@ viewPdfBtn.addEventListener("click", async function () {
     container.style.left = "-9999px";
     document.body.appendChild(container);
 
-    const canvas = await html2canvas(container, { scale: 3 });
-    const imgData = canvas.toDataURL("image/png");
+    //  const canvas = await html2canvas(container, { scale: 3 });
+//     const canvas = await html2canvas(container, {
+//   scale: window.devicePixelRatio || 3,
+//   useCORS: true,
+// });
+
+    const canvas = await html2canvas(container, {
+    scale: 3
+    });
+
+
+    // const imgData = canvas.toDataURL("image/png");
+    const imgData = canvas.toDataURL("image/jpeg");
     const margin = 5; // เว้นขอบ 5mm รอบด้าน
     const pdfWidth = doc.internal.pageSize.getWidth() - margin * 2;
     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-    doc.addImage(imgData, "PNG", margin, margin, pdfWidth, pdfHeight);
+    doc.addImage(imgData, "JPEG", margin, margin, pdfWidth, pdfHeight);
 
     container.remove();
+    console.log("HTML Length (innerHTML):", container.innerHTML.length);
   }
+  
 
+ 
   // ✅ เปิด PDF หลังจาก render เสร็จทุกหน้า
   const blob = doc.output("blob");
   const url = URL.createObjectURL(blob);
-
+  // doc.save("output.pdf"); 
   const win = window.open("", "_blank");
   if (!win) {
     alert("กรุณาอนุญาต popup");
