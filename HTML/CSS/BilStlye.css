@@ -74,7 +74,7 @@ body{
 @media print {
     body, html {
       width: 210mm;
-      height: 148mm;
+      height: auto;
       margin: 0;
       padding: 0;
     }
@@ -89,7 +89,7 @@ body{
   /* สำหรับแสดงบนหน้าจอ (optional) */
   .paper {
     width: 210mm;
-    height: 148mm;
+    height: auto;
     margin: auto;
     padding: 5mm;
     box-shadow: 0 0 5px rgba(0,0,0,0.3);

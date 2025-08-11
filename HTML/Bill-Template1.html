@@ -41,7 +41,7 @@
                     <p>วันที่ : {{CreateDate}}</p>
                 </div> -->
                 <div class="col-4">
-                    <p>วันที่ : {{CreateDate}}</p>
+                    <div>วันที่ : {{dayInv}}/{{monthInv}}/{{yearInv}}</div>
                 </div>
 
             </div>
@@ -63,7 +63,7 @@
                 </div>
             
                 <div class="col-4">
-                    <p>ชำระโดย : {{PayType}}</p>
+                    <div class="PayType-line">ชำระโดย : {{PayType}}</div>
                 </div>
             </div>
             <div class="row" style="margin-top: -10px;">
@@ -162,12 +162,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <!-- <tr>
                 <td class="text-left">{{ProductList}}</td>
-                <td>{{Qty}}</td>
+                <td>{{qtyItem}}</td>
                 <td class="text-right">{{UnitPrice_Formatted}}</td>
                 <td class="text-right">{{Price_Formatted}}</td>
-                </tr>
+                </tr> -->
+                {{ProductRows}}
             </tbody>
             </table>
 
@@ -200,8 +201,8 @@
             <div class="col-6">
                
             </div>
-            <div class="col-3">
-                <p>ภาษีมูลค่าเพิ่ม VAT 7%</p>
+           <div class="col-3">
+                <p>{{Vat_Label}}</p>
             </div>
             <div class="col-3 d-flex align-items-center justify-content-end">
                 <p>{{Vat_Formatted}}</p>
