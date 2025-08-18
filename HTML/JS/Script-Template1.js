@@ -250,15 +250,12 @@ viewPdfBtn.addEventListener("click", async function () {
       row => row.CONum === conum && row.Invoice_Group === invoiceGroup
     );
 
-    // if (allItems.length === 0) {
-    // console.warn(`ไม่พบข้อมูลสำหรับ CONum=${conum}, Invoice_Group=${invoiceGroup}`);
-    // continue; // ข้ามไปกลุ่มถัดไป
-    // }
-
-    if (!Array.isArray(allItems) || allItems.length === 0) {
-      console.warn(`ไม่พบข้อมูลสำหรับ CONum=${conum}, Invoice_Group=${invoiceGroup}`);
-      return; // หรือ break; แล้วแต่โครงสร้างโค้ด
+    if (allItems.length === 0) {
+    console.warn(`ไม่พบข้อมูลสำหรับ CONum=${conum}, Invoice_Group=${invoiceGroup}`);
+    continue; // ข้ามไปกลุ่มถัดไป
     }
+
+    
 
 
 
