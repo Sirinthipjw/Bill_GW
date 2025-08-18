@@ -1,11 +1,10 @@
 let excelData = [];
 
-
-
 const viewPdfBtn = document.getElementById("viewPDF");
 const dropZone = document.getElementById("dropZone");
 const rawDate = document.getElementById("create-date");
 const fileName = document.getElementById("fileName");
+
 // function numberToThaiText(number) {
 //   const numText = [
 //     "ศูนย์",
@@ -132,9 +131,43 @@ document.getElementById("excelFile").addEventListener("change", function (e) {
 });
 
 
+document.addEventListener("DOMContentLoaded", function () {
+      const billType = document.getElementById("billType");
+      const viewPDF = document.getElementById("viewPDF");
+
+      function updateBillTitle() {
+        const billTitle = document.getElementById("billTitle");
+        if (!billTitle) return;
+
+        const selected = billType ? billType.value : "";
+        if (selected === "rc1") {
+          billTitle.textContent = "ใบสำคัญรับเงิน";
+        } else if (selected === "rc2") {
+          billTitle.textContent = "ใบเสร็จรับเงิน/ใบกำกับภาษี";
+        } else if (selected === "rc3") {
+          billTitle.textContent = "ใบรับเงินอื่นๆ";
+        } else {
+          billTitle.textContent = "กรุณาเลือกประเภทใบเสร็จ";
+        }
+      }
+
+      if (billType) {
+        billType.addEventListener("change", updateBillTitle);
+      }
+
+      if (viewPDF) {
+        viewPDF.addEventListener("click", function () {
+          updateBillTitle(); // อัปเดต title ก่อน export
+          const element = document.getElementById("billTemplate");
+          html2pdf().from(element).save("Bill.pdf");
+        });
+      }
+    });
+
 
 
 viewPdfBtn.addEventListener("click", async function () {
+  
   if (excelData.length === 0) {
     alert("ไม่มีข้อมูลสำหรับสร้าง PDF");
     return;
@@ -206,24 +239,24 @@ viewPdfBtn.addEventListener("click", async function () {
   //     );
   //   }
 
-const uniqueGroups = [
-  ...new Set(excelData.map(row => `${row.CONum}__${row.Invoice_Group}`))
-];
+  const uniqueGroups = [
+    ...new Set(excelData.map(row => `${row.CONum}__${row.Invoice_Group}`))
+  ];
 
-for (const groupKey of uniqueGroups) {
-  const [conum, invoiceGroup] = groupKey.split("__");
+  for (const groupKey of uniqueGroups) {
+    const [conum, invoiceGroup] = groupKey.split("__");
 
-  const allItems = excelData.filter(
-    row => row.CONum === conum && row.Invoice_Group === invoiceGroup
-  );
+    const allItems = excelData.filter(
+      row => row.CONum === conum && row.Invoice_Group === invoiceGroup
+    );
 
-  if (allItems.length === 0) {
-  console.warn(`ไม่พบข้อมูลสำหรับ CONum=${conum}, Invoice_Group=${invoiceGroup}`);
-  continue; // ข้ามไปกลุ่มถัดไป
-}
+    if (allItems.length === 0) {
+    console.warn(`ไม่พบข้อมูลสำหรับ CONum=${conum}, Invoice_Group=${invoiceGroup}`);
+    continue; // ข้ามไปกลุ่มถัดไป
+    }
 
 
-  const data = allItems[0];
+    const data = allItems[0];
 
   if (uniqueGroups.indexOf(groupKey) > 0) doc.addPage();
 
@@ -247,153 +280,83 @@ for (const groupKey of uniqueGroups) {
   }
   data.BranchInfo = branchInfo;
 
-  // แยกสินค้าหลัก/ของแถม
-  // let mainProducts = [];
-  // let freeProducts = [];
-
-  // if (allItems.length === 1) {
-  //   mainProducts = allItems;
-  // } else {
-  //   mainProducts = allItems.filter(
-  //     item => !!item.PromoCode && item.PromoCode.toString().trim() !== ""
-  //   );
-  //   freeProducts = allItems.filter(
-  //     item => !item.PromoCode || item.PromoCode.toString().trim() === ""
-  //   );
-  // }  
-  //   const freeProductNames = freeProducts
-  //     .map((item) => item.ProductList)
-  //     .join(", ");
-  //   filledHtml = filledHtml.replace(/{{FreeProductList}}/g, freeProductNames);
-
-  //   const mainProduct = mainProducts[0] || {};
-  //   filledHtml = filledHtml.replace(
-  //     /{{ProductList}}/g,
-  //     mainProduct.ProductList || ""
-  //   );
-  //   filledHtml = filledHtml.replace(/{{Qty}}/g, mainProduct.Qty || "");
-  //   filledHtml = filledHtml.replace(
-  //     /{{UnitPrice_Formatted}}/g,
-  //     formatCurrency(mainProduct.UnitPrice)
-  //   );
-  //   filledHtml = filledHtml.replace(
-  //     /{{Price_Formatted}}/g,
-  //     formatCurrency(mainProduct.Price)
-  //   );
-
   let mainProducts = [];
-let freeProducts = [];
+  let freeProducts = [];
 
-// ตรวจว่ามีสินค้าที่ผูกกับ PromoCode หรือไม่
-const hasPromo = allItems.some(item => !!item.PromoCode && item.PromoCode.toString().trim() !== "");
+  // ตรวจว่ามีสินค้าที่ผูกกับ PromoCode หรือไม่
+  const hasPromo = allItems.some(item => !!item.PromoCode && item.PromoCode.toString().trim() !== "");
 
-if (hasPromo) {
-  // กรณีมีของแถม
-  mainProducts = allItems.filter(
-    item => !!item.PromoCode && item.PromoCode.toString().trim() !== ""
-  );
-  freeProducts = allItems.filter(
-    item => !item.PromoCode || item.PromoCode.toString().trim() === ""
-  );
-} else {
-  // กรณีไม่มีของแถม
-  // เลือกรายการที่มี SeriNum ซ้ำกันและไม่มี PromoCode เป็นรายการหลัก
-  mainProducts = allItems.filter(item => !item.PromoCode || item.PromoCode.toString().trim() === "");
+  if (hasPromo) {
+    // กรณีมีของแถม
+    mainProducts = allItems.filter(
+      item => !!item.PromoCode && item.PromoCode.toString().trim() !== ""
+    );
+    freeProducts = allItems.filter(
+      item => !item.PromoCode || item.PromoCode.toString().trim() === ""
+    );
+  } else {
+    // กรณีไม่มีของแถม
+    // เลือกรายการที่มี SeriNum ซ้ำกันและไม่มี PromoCode เป็นรายการหลัก
+    mainProducts = allItems.filter(item => !item.PromoCode || item.PromoCode.toString().trim() === "");
 
-  // ไม่มีของแถมเพราะไม่มี PromoCode
-  freeProducts = [];
-}
+    // ไม่มีของแถมเพราะไม่มี PromoCode
+    freeProducts = [];
+  }
 
-// แสดงของแถม (ถ้ามี)
-const freeProductNames = freeProducts.map(item => item.ProductList).join(", ");
-filledHtml = filledHtml.replace(/{{FreeProductList}}/g, freeProductNames);
+  // แสดงของแถม (ถ้ามี)
+  const freeProductNames = freeProducts.map(item => item.ProductList).join(", ");
+  filledHtml = filledHtml.replace(/{{FreeProductList}}/g, freeProductNames);
 
-// แสดงข้อมูลรายการหลัก
-// if (mainProducts.length > 0) {
-//   // แสดงชื่อสินค้าลงบรรทัดใหม่
-//   const mainProductLines = mainProducts.map(item => `${item.ProductList}`).join("<br>");
-//   filledHtml = filledHtml.replace(/{{ProductList}}/g, mainProductLines);
+  if (mainProducts.length > 0) {
+    // สร้าง HTML แถวสำหรับแต่ละสินค้า
+    const mainProductRows = mainProducts.map(item => {
+      let qty = parseFloat(item.qtyItem) || 0;
+      let qtyRounded = (qty % 1 >= 0.5) ? Math.ceil(qty) : Math.floor(qty);
 
-//   // ใช้ค่าจาก Excel โดยตรง
-//   const totalQtyItem = mainProducts.reduce((sum, item) => sum + (item.qtyItem || 0), 0);
-//   const totalItemPrice = mainProducts.reduce((sum, item) => sum + (item.ItemPrice || 0), 0);
-//   const totalQtyTotalItem = mainProducts.reduce((sum, item) => sum + (item.qtytotalItem || 0), 0);
+      return `
+        <tr>
+          <td class="text-left">${item.ProductList}</td>
+          <td>${qtyRounded}</td>
+          <td class="text-right">${formatCurrency(item.ItemPrice)}</td>
+          <td class="text-right">${formatCurrency(item.qtytotalItem)}</td>
+        </tr>
+      `;
+    }).join("");
 
-//   filledHtml = filledHtml.replace(/{{qtyItem}}/g, totalQtyItem);
-//   filledHtml = filledHtml.replace(/{{UnitPrice_Formatted}}/g, formatCurrency(totalItemPrice));
-//   filledHtml = filledHtml.replace(/{{Price_Formatted}}/g, formatCurrency(totalQtyTotalItem));
-
-// } else {
-//   // ถ้าไม่มีสินค้าหลัก
-//   filledHtml = filledHtml.replace(/{{ProductList}}/g, "");
-//   filledHtml = filledHtml.replace(/{{qtyItem}}/g, "");
-//   filledHtml = filledHtml.replace(/{{UnitPrice_Formatted}}/g, "");
-//   filledHtml = filledHtml.replace(/{{Price_Formatted}}/g, "");
-// }
-
-if (mainProducts.length > 0) {
-  // สร้าง HTML แถวสำหรับแต่ละสินค้า
-  const mainProductRows = mainProducts.map(item => {
-    let qty = parseFloat(item.qtyItem) || 0;
-    let qtyRounded = (qty % 1 >= 0.5) ? Math.ceil(qty) : Math.floor(qty);
-
-    return `
-      <tr>
-        <td class="text-left">${item.ProductList}</td>
-        <td>${qtyRounded}</td>
-        <td class="text-right">${formatCurrency(item.ItemPrice)}</td>
-        <td class="text-right">${formatCurrency(item.qtytotalItem)}</td>
-      </tr>
-    `;
-  }).join("");
-
-  filledHtml = filledHtml.replace(/{{ProductRows}}/g, mainProductRows);
-} else {
-  filledHtml = filledHtml.replace(/{{ProductRows}}/g, "");
-}
+    filledHtml = filledHtml.replace(/{{ProductRows}}/g, mainProductRows);
+  } else {
+    filledHtml = filledHtml.replace(/{{ProductRows}}/g, "");
+  }
 
 
-// const firstRow = excelData[0]; // เอาแค่แถวแรกมาใช้
+  const totalVat = mainProducts.length > 0 ? (mainProducts[0].Vat || 0) : 0;
+  // เช็คเงื่อนไขภาษี
+  let vatLabel = "";
+  let vatValue = "";
 
-// const dayTwoDigit   = String(Number(firstRow.dayInv) || 0).padStart(2, '0');
-// const monthTwoDigit = String(Number(firstRow.monthInv) || 0).padStart(2, '0');
-// const yearValue     = firstRow.yearInv || '';
-//   filledHtml = filledHtml.replace(/{{dayInv}}/g, dayTwoDigit);
-//   filledHtml = filledHtml.replace(/{{monthInv}}/g, monthTwoDigit);
-//   filledHtml = filledHtml.replace(/{{yearInv}}/g, yearValue);
+  if (totalVat !== 0) {
+    vatLabel = "ภาษีมูลค่าเพิ่ม 7%";
+    vatValue = formatCurrency(totalVat);
+  } else {
+    vatLabel = "ภาษีมูลค่าเพิ่ม NON VAT";
+    vatValue = formatCurrency(0);
+  }
 
-// 
+  // แทนค่าใน HTML
+  filledHtml = filledHtml.replace(/{{Vat_Label}}/g, vatLabel);
+  filledHtml = filledHtml.replace(/{{Vat_Formatted}}/g, vatValue);
+  function isValidValue(val) {
+    if (val === null || val === undefined) return false;
 
-const totalVat = mainProducts.length > 0 ? (mainProducts[0].Vat || 0) : 0;
-// เช็คเงื่อนไขภาษี
-let vatLabel = "";
-let vatValue = "";
+    if (typeof val === "number") return true;
 
-if (totalVat !== 0) {
-  vatLabel = "ภาษีมูลค่าเพิ่ม 7%";
-  vatValue = formatCurrency(totalVat);
-} else {
-  vatLabel = "ภาษีมูลค่าเพิ่ม NON VAT";
-  vatValue = formatCurrency(0);
-}
-
-// แทนค่าใน HTML
-filledHtml = filledHtml.replace(/{{Vat_Label}}/g, vatLabel);
-filledHtml = filledHtml.replace(/{{Vat_Formatted}}/g, vatValue);
-
-
-    function isValidValue(val) {
-      if (val === null || val === undefined) return false;
-
-      if (typeof val === "number") return true;
-
-      if (typeof val === "string") {
-        const cleaned = val.trim().toLowerCase();
-        return cleaned !== "" && cleaned !== "null" && cleaned !== "undefined";
-      }
-
-      return false;
+    if (typeof val === "string") {
+      const cleaned = val.trim().toLowerCase();
+      return cleaned !== "" && cleaned !== "null" && cleaned !== "undefined";
     }
+
+    return false;
+  }
 
     function safeValue(val) {
       if (val === null || val === undefined) return "";
@@ -469,17 +432,6 @@ filledHtml = filledHtml.replace(/{{Vat_Formatted}}/g, vatValue);
       "TotalPrice",
     ];
 
-    // Object.entries(data).forEach(([key, value]) => {
-    // const regex = new RegExp(`{{${key}}}`, "g");
-
-    //  let cleanValue = safeValue(value);
-
-    //   if (priceFields.includes(key)) {
-    //     cleanValue = formatCurrency(cleanValue);
-    //   }
-
-    //   filledHtml = filledHtml.replace(regex,cleanValue);
-    // });
     Object.entries(data).forEach(([key, value]) => {
       let cleanValue = safeValue(value);
       const regexBase = new RegExp(`{{${key}}}`, "g");
@@ -576,11 +528,6 @@ filledHtml = filledHtml.replace(/{{Vat_Formatted}}/g, vatValue);
     container.style.left = "-9999px";
     document.body.appendChild(container);
 
-    //  const canvas = await html2canvas(container, { scale: 3 });
-//     const canvas = await html2canvas(container, {
-//   scale: window.devicePixelRatio || 3,
-//   useCORS: true,
-// });
 
     const canvas = await html2canvas(container, {
     scale: 3
