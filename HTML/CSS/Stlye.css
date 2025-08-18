@@ -1,5 +1,5 @@
 
-/* @font-face {
+@font-face {
     font-family: 'helvetica';
     src: url('./fonts/helvetica-bold-webfont.eot');
     src: url('./fonts/helvetica-bold-webfont.eot?#iefix') format('embedded-opentype'),
@@ -33,8 +33,8 @@
     font-weight: 500;
     font-style: normal;
 
-} */
-/* 
+}
+
 @font-face {
     font-family: 'helvetica';
     src: url('/fonts/helvetica-webfont.eot');
@@ -45,7 +45,7 @@
     font-weight: normal;
     font-style: normal;
 
-} */
+}
 
 @font-face {
   font-family: 'Helvetica';
