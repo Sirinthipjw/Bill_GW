@@ -1,53 +1,52 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap'); */
-/* 
+
+/* Helvetica Regular */
 @font-face {
-    font-family: 'helvetica';
-    src: url('fonts/helvetica-bold-webfont.eot');
-    src: url('fonts/helvetica-bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('fonts/helvetica-bold-webfont.woff2') format('woff2'),
-         url('fonts/helvetica-bold-webfont.woff') format('woff'),
-         url('fonts/helvetica-bold-webfont.ttf') format('truetype');
+    font-family: 'Helvetica';
+    src: url('/fonts/helvetica-webfont.eot');
+    src: url('/fonts/helvetica-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/helvetica-webfont.woff2') format('woff2'),
+         url('/fonts/helvetica-webfont.woff') format('woff'),
+         url('/fonts/helvetica-webfont.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Helvetica Bold */
+@font-face {
+    font-family: 'Helvetica';
+    src: url('/fonts/helvetica-bold-webfont.eot');
+    src: url('/fonts/helvetica-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/helvetica-bold-webfont.woff2') format('woff2'),
+         url('/fonts/helvetica-bold-webfont.woff') format('woff'),
+         url('/fonts/helvetica-bold-webfont.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
-
-} */
-
-@font-face {
-    font-family: 'helvetica';
-    src: url('/CSS/fonts/helvetica-boldoblique-webfont.eot');
-    src: url('/CSS/fonts/helvetica-boldoblique-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/CSS/fonts/helvetica-boldoblique-webfont.woff2') format('woff2'),
-         url('/CSS/fonts/helvetica-boldoblique-webfont.woff') format('woff'),
-         url('/CSS/fonts/helvetica-boldoblique-webfont.ttf') format('truetype');
-    font-weight: 300;
-    font-style: normal;
-
 }
 
+/* Helvetica Oblique (Italic) */
 @font-face {
-    font-family: 'helvetica';
-    src: url('/CSS/fonts/helvetica-oblique-webfont.eot');
-    src: url('/CSS/fonts/helvetica-oblique-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/CSS/fonts/helvetica-oblique-webfont.woff2') format('woff2'),
-         url('/CSS/fonts/helvetica-oblique-webfont.woff') format('woff'),
-         url('/CSS/fonts/helvetica-oblique-webfont.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
-
+    font-family: 'Helvetica';
+    src: url('/fonts/helvetica-oblique-webfont.eot');
+    src: url('/fonts/helvetica-oblique-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/helvetica-oblique-webfont.woff2') format('woff2'),
+         url('/fonts/helvetica-oblique-webfont.woff') format('woff'),
+         url('/fonts/helvetica-oblique-webfont.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
 }
 
+/* Helvetica Bold Oblique (Bold Italic) */
 @font-face {
-    font-family: 'helvetica';
-    src: url('/CSS/fonts/helvetica-webfont.eot');
-    src: url('/CSS/fonts/helvetica-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/CSS/fonts/helvetica-webfont.woff2') format('woff2'),
-         url('/CSS/fonts/helvetica-webfont.woff') format('woff'),
-         url('/CSS/fonts/helvetica-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
+    font-family: 'Helvetica';
+    src: url('/fonts/helvetica-boldoblique-webfont.eot');
+    src: url('/fonts/helvetica-boldoblique-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/helvetica-boldoblique-webfont.woff2') format('woff2'),
+         url('/fonts/helvetica-boldoblique-webfont.woff') format('woff'),
+         url('/fonts/helvetica-boldoblique-webfont.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
 }
-
 /* @font-face {
   font-family: 'Helvetica';
   src: url('fonts/helvetica-webfont.woff2') format('woff2'),

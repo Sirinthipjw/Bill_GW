@@ -115,8 +115,18 @@ document.getElementById("excelFile").addEventListener("change", function (e) {
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     excelData = XLSX.utils.sheet_to_json(worksheet);
-    console.log("โหลดข้อมูลจาก Excel:", excelData);
+    
 
+    function cleanKeys(row) {
+      const cleaned = {};
+      for (const key in row) {
+        const cleanKey = key.replace(/^\uFEFF/, ""); // ลบ BOM ที่ต้น key
+        cleaned[cleanKey] = row[key];
+      }
+      return cleaned;
+    }
+    console.log("โหลดข้อมูลจาก Excel (ล้าง BOM แล้ว):", excelData);
+    excelData = excelData.map(cleanKeys);
     if (excelData.length > 0) {
       viewPdfBtn.style.display = "inline-block"; // ✅ แสดงปุ่มเมื่อมีข้อมูล
     }
@@ -180,7 +190,7 @@ viewPdfBtn.addEventListener("click", async function () {
   //   location.reload(); // รีเฟรชหน้า
   // }, 1500);
 
-  const templateResponse = await fetch("Bill-template1.html");
+  const templateResponse = await fetch("/Bill-template1.html");
   const templateHtml = await templateResponse.text();
 
   const { jsPDF } = window.jspdf;
