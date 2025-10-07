@@ -190,7 +190,7 @@ viewPdfBtn.addEventListener("click", async function () {
   //   location.reload(); // รีเฟรชหน้า
   // }, 1500);
 
-  const templateResponse = await fetch("/Bill-template1.html");
+  const templateResponse = await fetch("/Bill-template-dms.html");
   const templateHtml = await templateResponse.text();
 
   const { jsPDF } = window.jspdf;

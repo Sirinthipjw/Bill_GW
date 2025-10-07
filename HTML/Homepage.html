@@ -25,7 +25,7 @@
       <div style="color: #aaa; font-size: 1rem;">
         File support CSV
       </div>
-      <label>
+      <!-- <label>
         <input
           type="file"
           accept=".csv"
@@ -33,7 +33,17 @@
           class="file-input"
           style="margin-top: 50px;margin-left: 150px;"
         />
-      </label>
+      </label> -->
+     <button id="uploadBtn" class="upload-btn">Select file CSV</button>
+
+
+        <!-- ซ่อน input file -->
+        <input
+          type="file"
+          accept=".csv"
+          id="excelFile"
+          class="hidden-file-input"
+        />
     </div>
 
     <div class="BoxShow mt-4" style="display: none;" >
@@ -47,7 +57,7 @@
     
    
 </div>
-  <script src="/JS/Script-Template1.js"></script>
+  <script src="/JS/Script-Template-Dms.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>

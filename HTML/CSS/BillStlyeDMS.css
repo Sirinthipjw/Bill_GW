@@ -1,0 +1,357 @@
+@font-face {
+    font-family: 'Helvetica';
+    src: url('/fonts/helvetica-webfont.eot');
+    src: url('/fonts/helvetica-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/helvetica-webfont.woff2') format('woff2'),
+         url('/fonts/helvetica-webfont.woff') format('woff'),
+         url('/fonts/helvetica-webfont.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Helvetica Bold */
+@font-face {
+    font-family: 'Helvetica';
+    src: url('/fonts/helvetica-bold-webfont.eot');
+    src: url('/fonts/helvetica-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/helvetica-bold-webfont.woff2') format('woff2'),
+         url('/fonts/helvetica-bold-webfont.woff') format('woff'),
+         url('/fonts/helvetica-bold-webfont.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Helvetica Oblique (Italic) */
+@font-face {
+    font-family: 'Helvetica';
+    src: url('/fonts/helvetica-oblique-webfont.eot');
+    src: url('/fonts/helvetica-oblique-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/helvetica-oblique-webfont.woff2') format('woff2'),
+         url('/fonts/helvetica-oblique-webfont.woff') format('woff'),
+         url('/fonts/helvetica-oblique-webfont.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* Helvetica Bold Oblique (Bold Italic) */
+@font-face {
+    font-family: 'Helvetica';
+    src: url('/fonts/helvetica-boldoblique-webfont.eot');
+    src: url('/fonts/helvetica-boldoblique-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/helvetica-boldoblique-webfont.woff2') format('woff2'),
+         url('/fonts/helvetica-boldoblique-webfont.woff') format('woff'),
+         url('/fonts/helvetica-boldoblique-webfont.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+}
+
+@page {
+    size: A4 portrait;
+    margin: 5mm;
+  }
+
+@media print {
+    body, html {
+      width: 210mm;
+      height: auto;
+      margin: 0;
+      padding: 0;
+    }
+
+    #invoice-template {
+      width: 100%;
+      height: 100%;
+      page-break-after: avoid;
+    }
+}
+
+  /* สำหรับแสดงบนหน้าจอ (optional) */
+  .paper {
+    width: 210mm;
+    height: auto;
+    margin: auto;
+    padding: 0mm;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    background: white;
+    padding-left: 5px;
+    font-family: 'helvetica';
+    font-size: 7pt;
+}
+
+ * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* body {
+        font-family: 'Sarabun', 'Arial', sans-serif;
+        background: #f5f5f5;
+      } */
+
+      .receipt-container {
+        width: 100%;
+        min-height: 100vh;
+        padding: 0;
+      }
+
+      .receipt {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        padding: 0px 0px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .header .tax-id {
+        position: relative;
+      }
+
+      .header .tax-id .page-number {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .header h1 {
+        font-size: 20px;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      .header p {
+        font-size: 13px;
+        line-height: 1.2;
+        margin: 3px 0;
+      }
+
+      .divider {
+        border: none;
+        border-top: 1.5px solid #000;
+        margin: 10px auto;
+        width: 75%;
+      }
+
+      .divider1 {
+        border: none;
+        border-top: 1.5px dotted #000;
+        margin: 10px 0 0 auto;
+        line-height: 1.1;
+      }
+
+      .divider2 {
+        border: none;
+        border-top: 1.5px dotted #000;
+        margin: 0;
+        line-height: 1.1;
+      }
+
+      .title {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+
+      .info-section {
+        margin: 10px 50px 20px;
+        font-size: 13px;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 10px;
+        line-height: 1.2;
+      }
+
+      .info-left {
+        flex: 1;
+      }
+
+      .info-right {
+        min-width: 200px;
+        text-align: left;
+      }
+
+      .items-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+        font-size: 14px;
+      }
+
+      .items-table th {
+        border-top: 2px solid #000;
+        border-bottom: 2px solid #000;
+        padding: 8px;
+      }
+
+      .items-table td {
+        border-bottom: 2px solid #060606;
+        padding: 8px;
+        padding-bottom: 10%;
+      }
+
+      .items-table thead th {
+        background: #fff;
+        font-weight: bold;
+        text-align: center;
+        line-height: 1.5;
+      }
+
+      .col-no {
+        width: 60px;
+        text-align: center;
+      }
+
+      .col-desc {
+        text-align: left;
+      }
+
+      .col-amount {
+        width: 150px;
+        text-align: right;
+      }
+
+      .total-section {
+        margin: 5px 0;
+        font-size: 14px;
+      }
+
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .total-label {
+        font-size: 14px;
+      }
+
+      .total-amount {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+      }
+
+      .total-amount .amount {
+        font-size: 18px;
+        font-weight: normal;
+        min-width: 120px;
+        text-align: right;
+      }
+
+      .payment-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+        font-size: 13px;
+        border-spacing: 0;
+      }
+
+      .payment-table td {
+        padding: 0;
+        line-height: 1.1;
+      }
+
+      .payment-table tr:first-child td {
+        border-top: 2px solid #000;
+      }
+
+      .payment-table tr:last-child td {
+        border-bottom: 2px solid #000;
+      }
+
+      .pay-label {
+        width: 80px;
+        text-align: left;
+      }
+
+      .pay-method {
+        width: 200px;
+      }
+
+      .pay-bank-label {
+        width: 90px;
+        text-align: left;
+      }
+
+      .pay-bank {
+        width: 150px;
+      }
+
+      .pay-bank1 {
+        width: 150px;
+        text-align: center;
+      }
+
+      .pay-receiver {
+        width: 250px;
+        text-align: center;
+        vertical-align: middle;
+        padding: 5px 0;
+        border-bottom: 2px solid #000;
+        border-left: 2px solid #000;
+      }
+
+      .pay-user1 {
+        margin-top: 10px;
+      }
+
+      .pay-user2 {
+        margin-bottom: 30px;
+        margin-top: 0;
+      }
+
+      .dotted-line {
+        border-bottom: 2px dotted #000;
+        margin: 10px 5px 5px 10px;
+      }
+
+      .signature-section {
+        text-align: center;
+        margin: 5px;
+        font-size: 13px;
+      }
+
+      .footer-notes {
+        margin-top: 5px;
+      }
+
+      .footer-notes .row {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 4px;
+      }
+
+      .footer-notes .col-2 {
+        flex: 0 0 80px;
+      }
+
+      .footer-notes .col-10 {
+        flex: 1;
+      }
+
+      .footer-notes p {
+        margin: 0;
+        line-height: 1.5;
+        font-size: 10px;
+      }
+
+      @media print {
+        body {
+          background: white;
+        }
+
+        .receipt {
+          box-shadow: none;
+          max-width: 100%;
+        }
+      }

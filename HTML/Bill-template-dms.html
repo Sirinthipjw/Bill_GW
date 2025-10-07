@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/CSS/BillStlyeDMS.css" />
+    <title>PDF Preview Bill DMS</title>
+</head>
+<body>
+    <div id="invoice-template">
+  
+    <div class="paper">
+    <div class="receipt-container">
+      <div class="receipt">
+        <!-- Header -->
+        <div class="header">
+          <h1>{{CompanyName}}</h1>
+          <p>{{AddrCom}} {{DistrictCom}} {{SubdistrictCom}} {{ProvinceCom}} {{ZipCom}}</p>
+          <p>
+           เบอร์โทรสาขา : {{PhoneCom}} เบอรโทรลูกค้าสัมพันธ์ : {{FaxCom}}
+          </p>
+          <p class="tax-id">
+            เลขประจำตัวผู้เสียภาษี / Tax ID : {{TaxCom}} สาขาที่ / Branch : {{BranchCom}}
+            <span class="page-number">Page 1 of 1</span>
+          </p>
+        </div>
+
+        <hr class="divider" />
+
+        <h2 class="title">ใบเสร็จรับเงิน / Original Receipt</h2>
+
+        <!-- Customer Info -->
+        <div class="info-section">
+          <div class="info-row">
+            <div class="info-left">
+              <strong>ชื่อลูกค้า / Name :</strong> {{NameCust}}
+            </div>
+            <div class="info-right">
+              <strong>เลขที่ / No. :</strong> 3M00025X0001
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-left">
+              <strong>เลขประจำตัวผู้เสียภาษี / Tax ID. :</strong> {{TaxCust}}
+            </div>
+            <div class="info-right">
+              <strong>วันที่ / Date. :</strong> 01/10/2025
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-left"><strong>สาขาที่ / Branch :</strong> {{branchIDc}}</div>
+          </div>
+          <div class="info-row">
+            <div class="info-left">
+              <strong>ที่อยู่ / Address :</strong> {{AddrCust}} {{DistrictCust}} {{SubdistrictCust}} {{ProvinceCust}} {{ZipCust}}
+            </div>
+          </div>
+        </div>
+
+        <!-- Items -->
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th class="col-no">ลำดับ<br />No.</th>
+              <th class="col-desc">รายการ<br />Description of Goods</th>
+              <th class="col-amount">จำนวนเงิน<br />Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-no">1</td>
+              <td class="col-desc">{{DesciptionOfGoods}} {{Custpo}}</td>
+              <td class="col-amount">{{Price}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Total -->
+        <div class="total-section">
+          <div class="total-row">
+            <div class="total-label">(THB) {{TotalPriceText}}</div>
+            <div class="total-amount">
+              <strong>รวมทั้งสิน / Total</strong>
+              <span class="amount">{{Price}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment -->
+        <table class="payment-table">
+          <tbody>
+            <tr>
+              <td class="pay-label">ชำระโดย<br />Paid by</td>
+              <td class="pay-method">{{PayType}}</td>
+              <td class="pay-bank-label">ธนาคาร<br />Bank</td>
+              <td class="pay-bank">
+                {{Bankcode}} - {{Bankname}} <br/>
+                <!-- J19 - BBL-CR S/A<br />#262-4-65365-1<br /> -->
+                <div class="divider2"></div>
+              </td>
+              <td class="pay-receiver" rowspan="3">
+                <div class="pay-user1">{{UserDesc}}</div>
+                <div class="dotted-line"></div>
+                <div class="pay-user2">ผู้รับเงิน / Receiver</div>
+                <div class="signature-section">
+                  <div class="dotted-line"></div>
+                  <div>ผู้มีอำนาจลงนาม / Authorized Signature</div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="pay-label">สาขา<br />Branch</td>
+              <td class="pay-method">{{BranchNameCust}}<div class="divider1"></div></td>
+              <td class="pay-bank-label">เลขที่เช็ค<br />Cheque No.</td>
+              <td class="pay-bank"><div class="divider1"></div></td>
+            </tr>
+            <tr>
+              <td class="pay-label">ลงวันที่<br />Date</td>
+              <td class="pay-method"><div class="divider1"></div></td>
+              <td class="pay-bank-label">จำนวนเงิน<br />Amount</td>
+              <td class="pay-bank1">
+                {{Price}}
+                <div class="divider1"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Footer -->
+        <div class="footer-notes">
+          <div class="row">
+            <div class="col-2">
+              <p>หมายเหตุ</p>
+            </div>
+            <div class="col-10">
+              <p>
+                1. ใบเสร็จรับเงินฉบับนี้จะสมบูรณ์ต่อเมื่อมีลายเซ็นชื่อและผู้มีอำนาจลงนามและผู้รับเงิน
+              </p>
+              <p>
+                This receipt is only valid when the signature of our cashier and authorized
+                personnel both appeared on it.
+              </p>
+              <p>
+                2. กรณีชำระด้วยเช็คหรือโอนใบเสร็จรับเงินจะสมบูรณ์ต่อเมื่อเรียกเก็บเงินจากธนาคารแล้ว
+              </p>
+              <p>
+                If payment made by cheque this receipt will be valid only when the cheque has been
+                honored by the bank.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

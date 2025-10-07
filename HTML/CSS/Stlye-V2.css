@@ -187,3 +187,24 @@ body {
  
 }
 
+ .hidden-file-input {
+    display: none;
+  }
+
+  .upload-btn {
+    margin-top: 50px;
+    margin-left: 0px;
+    padding: 10px 20px;
+    background-color: #2E742B;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .upload-btn:hover {
+    background-color: #45a049;
+  }
+
