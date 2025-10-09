@@ -136,6 +136,18 @@ viewPdfBtn.addEventListener("click", async function () {
             const data = excelData[i];
             let filledHtml = templateHtml;
 
+            const cleanTaxCom = extractNumbers(data.TaxCom);
+            const cleanTaxCust = extractNumbers(data.TaxCust);
+            const BranchCom = data.BranchCom || '';
+
+            filledHtml = filledHtml.replace(
+              `เลขประจำตัวผู้เสียภาษี / Tax ID : ${cleanTaxCom} สาขาที่ / Branch : ${BranchCom}
+            <span class="page-number">Page 1 of 1</span>`
+            )
+           
+            filledHtml = filledHtml.replace( `<strong>เลขประจำตัวผู้เสียภาษี / Tax ID. :</strong> ${cleanTaxCust}`)
+           
+
             const totalPages = excelData.length;
 
             let price = data.Price
@@ -163,7 +175,15 @@ viewPdfBtn.addEventListener("click", async function () {
             /<strong>เลขที่ \/ No\. :<\/strong>\s*\S+/g,
             `<strong>เลขที่ / No. :</strong> ${docNo}`
             );
+
             
+            console.log('TaxCom cleaned:', cleanTaxCom);
+            console.log('TaxCust cleaned:', cleanTaxCust);
+
+            const rawBankInfo = data.Bankname; 
+            const formattedBankInfo = splitBankInfo(rawBankInfo);
+            filledHtml = filledHtml.replace(/{{Bankname}}/g, formattedBankInfo);
+
             // ✅ สร้างข้อมูลสาขา (ตัวอย่าง)
             const rawBranchId = data.BranchIdCust;
             const rawBranchName = "สำนักงานใหญ่";
@@ -177,10 +197,16 @@ viewPdfBtn.addEventListener("click", async function () {
             filledHtml = filledHtml.replace(/{{BranchInfo}}/g, branchInfo);
             filledHtml = filledHtml.replace(/{{branchIDc}}/g, branchIDc);
 
+            const safeData = {
+              ...data,
+              TaxCom: cleanTaxCom,
+              TaxCust: cleanTaxCust,
+              BranchCom: BranchCom
+            };
             // ✅ แทนค่าข้อมูลทั่วไปทั้งหมด
-            for (const key in data) {
+            for (const key in safeData) {
             const regex = new RegExp(`{{${key}}}`, "g");
-            filledHtml = filledHtml.replace(regex, data[key] ?? "");
+            filledHtml = filledHtml.replace(regex, safeData[key] ?? "");
             }
 
             // ✅ แปลง HTML เป็นภาพ
@@ -201,8 +227,55 @@ viewPdfBtn.addEventListener("click", async function () {
 
             container.remove();
             console.log(`✅ สร้างหน้า PDF สำหรับแถวที่ ${i + 1}/${excelData.length}`);
+            if (!safeValue(data.ChequeNo)) {
+  // ถ้าไม่มีค่า → ลบทั้งช่อง label และช่องค่าจริงออกจาก HTML
+  filledHtml = filledHtml.replace(
+    /<td[^>]*class=["'][^"']*pay-bank-label[^"']*["'][^>]*>[\s\S]*?<\/td>\s*/g,
+    ''
+  );
+  filledHtml = filledHtml.replace(
+    /<td[^>]*class=["'][^"']*pay-bank[^"']*["'][^>]*>[\s\S]*?<\/td>\s*/g,
+    ''
+  );
+
+  // กันไว้: ลบ placeholder {{ChequeNo}} ทุกจุดที่อาจเหลือ
+  filledHtml = filledHtml.replace(/{{\s*ChequeNo\s*}}/g, '');
+} else {
+  // ถ้ามีค่า → แทนค่า {{ChequeNo}} ด้วยข้อมูลจริง
+  filledHtml = filledHtml.replace(/{{\s*ChequeNo\s*}}/g, data.ChequeNo);
+}
+
+// ✅ TimeDate
+if (!safeValue(data.TimeDate)) {
+  filledHtml = filledHtml.replace(
+    /<td[^>]*class=["'][^"']*pay-label[^"']*["'][^>]*>[\s\S]*?<\/td>\s*/g,
+    ''
+  );
+  filledHtml = filledHtml.replace(
+    /<td[^>]*class=["'][^"']*TimeDate[^"']*["'][^>]*>[\s\S]*?<\/td>\s*/g,
+    ''
+  );
+  filledHtml = filledHtml.replace(/{{\s*TimeDate\s*}}/g, '');
+} else {
+  filledHtml = filledHtml.replace(/{{\s*TimeDate\s*}}/g, data.TimeDate);
+}
 
             
+        }
+
+        function safeValue(val) {
+          if (val === null || val === undefined) return "";
+          if (typeof val === "string" && val.trim().toLowerCase() === "null")
+            return "";
+          if (typeof val === "string" && val.trim().toLowerCase() === "undefined")
+            return "";
+          if (typeof val === "string" && val.trim().toLowerCase() === "-")
+            return "";
+          if (typeof val === "string" && val.trim().toLowerCase() === "")
+            return "";
+          if (typeof val === "string" && val.trim().toLowerCase() === " ")
+            return "";
+          return val;
         }
         function formatPrice(value) {
             const number = parseFloat(value);
@@ -268,17 +341,61 @@ viewPdfBtn.addEventListener("click", async function () {
             const docNo = `${companyId}M${branchCode}${year}${monthCode}${custPoLast4}`;
             return docNo;
         }
-    
+        function extractNumbers(str) {
+          if (str == null) return '';
+          return String(str).replace(/["=]/g, '') // ตัด " และ = ออกก่อน
+            .replace(/\D/g, ''); 
+        }
+        function splitBankInfo(bankText) {
+          if (!bankText) return '';
+          // ใช้ regex แยกส่วนที่มีเครื่องหมาย # ออกมา
+          const match = bankText.match(/(.*?)(#.*)/);
+          if (match) {
+            // match[1] = ก่อนเครื่องหมาย #
+            // match[2] = ตั้งแต่ # เป็นต้นไป
+            return `${match[1].trim()}<br/>${match[2].trim()}`;
+          }
+          return bankText; // ถ้าไม่มี # ให้คืนค่าเดิม
+        }
 
    
+
+   
+  // const blob = doc.output("blob");
+  // const url = URL.createObjectURL(blob);
+  // // doc.save("output.pdf"); 
+  // const win = window.open("", "_blank");
+  // if (!win) {
+  //   alert("กรุณาอนุญาต popup");
+  //   return;
+  // }
+
+  // const blob = doc.output("blob");
+  // const url = URL.createObjectURL(blob);
+  // const a = document.createElement("a");
+  // a.href = url;
+  // a.download = "output.pdf";
+  // document.body.appendChild(a);
+  // a.click();
+  // a.remove();
+  // URL.revokeObjectURL(url);
+
   const blob = doc.output("blob");
-  const url = URL.createObjectURL(blob);
-  // doc.save("output.pdf"); 
-  const win = window.open("", "_blank");
-  if (!win) {
-    alert("กรุณาอนุญาต popup");
-    return;
-  }
+const url = URL.createObjectURL(blob);
+
+// เปิดแท็บใหม่
+const win = window.open("", "_blank");
+if (!win) {
+  alert("กรุณาอนุญาต popup");
+  return;
+}
+
+// โหลด PDF เข้าแท็บใหม่
+win.location.href = url;
+
+// (ไม่บังคับ แต่ช่วยจัดการหน่วยความจำ)
+setTimeout(() => URL.revokeObjectURL(url), 10000);
+
 
   const iframe = win.document.createElement("iframe");
   iframe.style.width = "100%";
