@@ -1,4 +1,4 @@
-/* @font-face {
+@font-face {
     font-family: 'Helvetica';
     src: url('/fonts/helvetica-webfont.eot');
     src: url('/fonts/helvetica-webfont.eot?#iefix') format('embedded-opentype'),
@@ -50,8 +50,8 @@
          url('/fonts/browa.ttf') format('truetype');
     font-weight: 100;
     font-style: normal;
-} */
-
+}
+/* 
 @font-face {
     font-family: 'Helvetica';
     src: url('../fonts/helvetica-webfont.eot');
@@ -63,7 +63,7 @@
     font-style: normal;
 }
 
-/* Helvetica Bold */
+
 @font-face {
     font-family: 'Helvetica';
     src: url('../fonts/helvetica-bold-webfont.eot');
@@ -75,7 +75,7 @@
     font-style: normal;
 }
 
-/* Helvetica Oblique (Italic) */
+
 @font-face {
     font-family: 'Helvetica';
     src: url('../fonts/helvetica-oblique-webfont.eot');
@@ -87,7 +87,7 @@
     font-style: italic;
 }
 
-/* Helvetica Bold Oblique (Bold Italic) */
+
 @font-face {
     font-family: 'Helvetica';
     src: url('../fonts/helvetica-boldoblique-webfont.eot');
@@ -105,7 +105,7 @@
          url('../fonts/browa.ttf') format('truetype');
     font-weight: 100;
     font-style: normal;
-}
+} */
 
 
 
