@@ -123,6 +123,7 @@ viewPdfBtn.addEventListener("click", async function () {
         return;
     }
     const templateResponse = await fetch("/Bill-template-dms.html");
+    
     const templateHtml = await templateResponse.text();
 
     const { jsPDF } = window.jspdf;
@@ -228,38 +229,38 @@ viewPdfBtn.addEventListener("click", async function () {
             container.remove();
             console.log(`✅ สร้างหน้า PDF สำหรับแถวที่ ${i + 1}/${excelData.length}`);
             if (!safeValue(data.ChequeNo)) {
-  // ถ้าไม่มีค่า → ลบทั้งช่อง label และช่องค่าจริงออกจาก HTML
-  filledHtml = filledHtml.replace(
-    /<td[^>]*class=["'][^"']*pay-bank-label[^"']*["'][^>]*>[\s\S]*?<\/td>\s*/g,
-    ''
-  );
-  filledHtml = filledHtml.replace(
-    /<td[^>]*class=["'][^"']*pay-bank[^"']*["'][^>]*>[\s\S]*?<\/td>\s*/g,
-    ''
-  );
+          // ถ้าไม่มีค่า → ลบทั้งช่อง label และช่องค่าจริงออกจาก HTML
+          filledHtml = filledHtml.replace(
+            /<td[^>]*class=["'][^"']*pay-bank-label[^"']*["'][^>]*>[\s\S]*?<\/td>\s*/g,
+            ''
+          );
+          filledHtml = filledHtml.replace(
+            /<td[^>]*class=["'][^"']*pay-bank[^"']*["'][^>]*>[\s\S]*?<\/td>\s*/g,
+            ''
+          );
 
-  // กันไว้: ลบ placeholder {{ChequeNo}} ทุกจุดที่อาจเหลือ
-  filledHtml = filledHtml.replace(/{{\s*ChequeNo\s*}}/g, '');
-} else {
-  // ถ้ามีค่า → แทนค่า {{ChequeNo}} ด้วยข้อมูลจริง
-  filledHtml = filledHtml.replace(/{{\s*ChequeNo\s*}}/g, data.ChequeNo);
-}
+          // กันไว้: ลบ placeholder {{ChequeNo}} ทุกจุดที่อาจเหลือ
+          filledHtml = filledHtml.replace(/{{\s*ChequeNo\s*}}/g, '');
+        } else {
+          // ถ้ามีค่า → แทนค่า {{ChequeNo}} ด้วยข้อมูลจริง
+          filledHtml = filledHtml.replace(/{{\s*ChequeNo\s*}}/g, data.ChequeNo);
+        }
 
-// ✅ TimeDate
-if (!safeValue(data.TimeDate)) {
-  filledHtml = filledHtml.replace(
-    /<td[^>]*class=["'][^"']*pay-label[^"']*["'][^>]*>[\s\S]*?<\/td>\s*/g,
-    ''
-  );
-  filledHtml = filledHtml.replace(
-    /<td[^>]*class=["'][^"']*TimeDate[^"']*["'][^>]*>[\s\S]*?<\/td>\s*/g,
-    ''
-  );
-  filledHtml = filledHtml.replace(/{{\s*TimeDate\s*}}/g, '');
-} else {
-  filledHtml = filledHtml.replace(/{{\s*TimeDate\s*}}/g, data.TimeDate);
-}
-
+        // ✅ TimeDate
+        if (!safeValue(data.TimeDate)) {
+          filledHtml = filledHtml.replace(
+            /<td[^>]*class=["'][^"']*pay-label[^"']*["'][^>]*>[\s\S]*?<\/td>\s*/g,
+            ''
+          );
+          filledHtml = filledHtml.replace(
+            /<td[^>]*class=["'][^"']*TimeDate[^"']*["'][^>]*>[\s\S]*?<\/td>\s*/g,
+            ''
+          );
+          filledHtml = filledHtml.replace(/{{\s*TimeDate\s*}}/g, '');
+        } else {
+          filledHtml = filledHtml.replace(/{{\s*TimeDate\s*}}/g, data.TimeDate);
+        }
+        
             
         }
 
@@ -380,30 +381,39 @@ if (!safeValue(data.TimeDate)) {
   // a.remove();
   // URL.revokeObjectURL(url);
 
+  const today = new Date();
+  const formattedDate = [
+    String(today.getDate()).padStart(2, "0"),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    today.getFullYear()
+  ].join("-");
+
+ const firstData = excelData[0] || {};
+const baseName = safeValue(firstData.Name) || "Invoice";
+const siteCode = safeValue(firstData.Site) || "SITE";
+
+  // ตั้งชื่อไฟล์ใหม่
+  const fileName = `${baseName}_${siteCode}_${formattedDate}.pdf`;
+
   const blob = doc.output("blob");
-const url = URL.createObjectURL(blob);
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName; // ✅ ใช้ชื่อที่สร้างขึ้น
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 
-// เปิดแท็บใหม่
-const win = window.open("", "_blank");
-if (!win) {
-  alert("กรุณาอนุญาต popup");
-  return;
-}
+ 
 
-// โหลด PDF เข้าแท็บใหม่
-win.location.href = url;
-
-// (ไม่บังคับ แต่ช่วยจัดการหน่วยความจำ)
-setTimeout(() => URL.revokeObjectURL(url), 10000);
-
-
-  const iframe = win.document.createElement("iframe");
-  iframe.style.width = "100%";
-  iframe.style.height = "100%";
-  iframe.style.border = "none";
-  iframe.src = url;
-  win.document.body.style.margin = "0";
-  win.document.body.appendChild(iframe);
+  // const iframe = win.document.createElement("iframe");
+  // iframe.style.width = "100%";
+  // iframe.style.height = "100%";
+  // iframe.style.border = "none";
+  // iframe.src = url;
+  // win.document.body.style.margin = "0";
+  // win.document.body.appendChild(iframe);
 
 
     setTimeout(() => {
